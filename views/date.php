@@ -1,4 +1,5 @@
 <?
+date_default_timezone_set('Asia/Barnaul');
 $date = date('d.m.Y H:i');
 $href = (isset($_GET['id'])) ? "?id=" . $_GET['id'] . "&date=" : "?date=";
 $monthes = array(
