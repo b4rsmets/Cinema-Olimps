@@ -798,11 +798,13 @@ input[type=text]:focus, input[type=password]:focus {
 .available{
     border: 2px solid #fff;
     color: white;
+    cursor: pointer;
     text-align: center;
 }
 .unavailable{
     border: 2px solid #767474;
     color: #767474;
+    cursor: default;
     text-align: center;
 }
 .seat{
@@ -813,7 +815,6 @@ input[type=text]:focus, input[type=password]:focus {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    cursor: pointer;
     transition: 0.5s;
 }
 .available:hover{
@@ -823,9 +824,11 @@ input[type=text]:focus, input[type=password]:focus {
     border: 2px solid #E72E2E;
     color: white;
     text-align: center;
+    cursor: pointer;
 }
 .pick:hover{
     border: 2px solid #E72E2E;
+    cursor: pointer;
 }
 .screen{
     width: 811px;
@@ -905,7 +908,6 @@ input[type=text]:focus, input[type=password]:focus {
 }
 .left-status-container{
     width: 83px;
-    /* margin: auto; */
     height: 100%;
     display: flex;
     flex-direction: column;
