@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bindings/tcpdf" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cache/mask_0" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cache/mask_1" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cache/mask_2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cache/mask_3" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cache/mask_4" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cache/mask_5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cache/mask_6" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cache/mask_7" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

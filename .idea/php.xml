@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/../../modules/php/PHP_7.4" />
+      <path value="$PROJECT_DIR$/vendor/bindings/tcpdf" />
+      <path value="$PROJECT_DIR$/vendor/cache/mask_0" />
+      <path value="$PROJECT_DIR$/vendor/cache/mask_1" />
+      <path value="$PROJECT_DIR$/vendor/cache/mask_2" />
+      <path value="$PROJECT_DIR$/vendor/cache/mask_3" />
+      <path value="$PROJECT_DIR$/vendor/cache/mask_4" />
+      <path value="$PROJECT_DIR$/vendor/cache/mask_5" />
+      <path value="$PROJECT_DIR$/vendor/cache/mask_6" />
+      <path value="$PROJECT_DIR$/vendor/cache/mask_7" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.0">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
+  <component name="PhpStanOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+</project>
