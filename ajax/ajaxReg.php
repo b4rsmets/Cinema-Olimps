@@ -9,6 +9,6 @@ if ($issetlogin){
     return true;
 }
 else{
-    $regmodel->addUser($data['login'], $data['password']);
+    $regmodel->addUser($data['login'], $data['password'], $data['email'], $data['full_name']);
 
 }

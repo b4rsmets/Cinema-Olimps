@@ -7,7 +7,7 @@ $authmodel = new \models\auth();
 $issetUser = $authmodel->authUser($data['login'], $data['password']);
 if ($issetUser){
     $_SESSION['auth']['login']=$data['login'];
-    $_SESSION['auth']['role']=$issetUser;
+    $_SESSION['role']=$issetUser;
     echo  $issetUser;
 }
 else{

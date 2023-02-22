@@ -15,7 +15,7 @@ class auth
         $query = $this->connect->query("SELECT * FROM users WHERE login = '$login' AND password = '$password'");
         if ($query->num_rows) {
             $result=$query->fetch_assoc();
-            return $result['role'];
+            return $result;
         } else {
             return false;
         }

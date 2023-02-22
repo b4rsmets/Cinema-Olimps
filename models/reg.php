@@ -20,12 +20,13 @@ class reg
             return false;
         }
     }
-    function addUser($login, $password){
-        $query = $this->connect->query("INSERT INTO users (login, password, role) VALUES ('$login', '$password', 'user')");
-        if($this->connect->error){
+
+    function addUser($login, $password, $email, $full_name)
+    {
+        $query = $this->connect->query("INSERT INTO users (login, email, full_name, password, role) VALUES ('$login', '$email', '$full_name', '$password', 'user')");
+        if ($this->connect->error) {
             echo 'Ошибка';
-        }
-        else{
+        } else {
 
         }
     }
