@@ -7,8 +7,7 @@ class regController
 
     function __construct()
     {
-        $usermodel = new \models\user();
-        $data = $usermodel->addUser();
+        $usermodel = new \models\reg();
         $indexView = new \views\registration();
 
     }

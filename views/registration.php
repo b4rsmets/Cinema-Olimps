@@ -13,9 +13,9 @@ class registration
             <hr>
 
             <label for="login"><b>Логин</b></label>
-            <input type="text" placeholder="Введите логин" name="login" required>
+            <input type="text"  placeholder="Введите логин" name="login" required>
             <label for="password"><b>Пароль</b></label>
-            <input type="password" placeholder="Введите пароль (минимум 6 символов)" name="password" required>
+            <input type="password"  placeholder="Введите пароль (минимум 6 символов)" name="password" required>
             <hr class="line-reg">
             <p>Создавая аккаунт Вы соглашаетесь с <a href="#">Terms & Privacy</a>.</p>
             <button type="submit" id="reg-btn" class="registerbtn">Зарегистрироваться</button>

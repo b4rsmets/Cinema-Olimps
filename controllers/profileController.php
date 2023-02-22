@@ -6,8 +6,13 @@ class profileController
 {
     function __construct()
     {
-        $usermodel = new \models\user();
-        $profileView = new \views\profile();
-        $profileView->render();
+        if ($_SESSION['auth']){
+            $usermodel = new \models\auth();
+            $profileView = new \views\profile();
+            $profileView->render();
+        }
+else{
+
+}
     }
 }
