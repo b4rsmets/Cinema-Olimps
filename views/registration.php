@@ -18,7 +18,7 @@ else{
             <label for="login"><b>Логин</b></label>
             <input type="text" pattern="[a-zA-Z0-9]+" placeholder="Введите логин" name="login" required>
             <label for="full_name"><b>Ваше имя</b></label>
-            <input type="text" pattern="[А-Яа-яЁё ]+" placeholder="Как вас зовут" name="full_name" required>
+            <input type="text" pattern="[А-Яа-яЁё ]+" placeholder="Как вас зовут" name="full_name" title="Напишите как вас зовут на Русском языке" required>
             <label for="email"><b>Email</b></label>
             <input type="email"  placeholder="Email" name="email" required>
             <label for="password"><b>Пароль</b></label>

@@ -678,6 +678,27 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
     flex-direction: row;
     flex-wrap: nowrap;
 }
+.shake {
+    animation: shake 0.3s;
+    border-color: red;
+}
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(5px);
+    }
+    50% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
 .user-info{
     width: 458px;
     height: 410px;
