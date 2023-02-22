@@ -1,4 +1,5 @@
 <?
+session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . "/config.php";
 $str = substr($_POST['data'], 1, -1);
 parse_str($str, $data);

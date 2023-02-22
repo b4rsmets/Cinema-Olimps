@@ -11,9 +11,8 @@ $(document).ready(function () {
             success: function (response) {
                 if (response == true) {
                     $("#error").removeClass('error');
-                }
-                if (response == false) {
-                    $("#error").addClass('error');
+                } else {
+                    window.location.replace("/auth");
                 }
             }
         });
@@ -29,11 +28,11 @@ $(document).ready(function () {
             url: "/ajax/ajaxAuth.php",
             type: "post",
             data: {data: data},
-            success: function (response) { console.log(response);
-                if (response){
+            success: function (response) {
+                console.log(response);
+                if (response) {
                     window.location.replace("/profile");
-                }
-                else{
+                } else {
                     $("#error").addClass('error');
                 }
             }

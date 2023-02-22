@@ -27,5 +27,17 @@
             </ul>
         </div>
     </div>
-    <a href="#"><div class="login"><img src="./resource/images/enter.png" alt=""><span>Войти в личный кабинет</span></div></a>
+    <?
+    if (!empty($_SESSION['auth'] == null)){
+       ?>
+        <a href="/auth"><div class="login"><img src="./resource/images/enter.png" alt=""><span>Войти в личный кабинет</span></div></a>
+    <?
+    }
+    else{
+        ?>
+        <a href="/profile"><div class="login"><img src="./resource/images/enter.png" alt=""><span>Профиль</span></div></a>
+        <?
+    }
+    ?>
+
 </header>

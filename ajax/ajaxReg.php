@@ -10,4 +10,5 @@ if ($issetlogin){
 }
 else{
     $regmodel->addUser($data['login'], $data['password']);
+
 }

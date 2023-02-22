@@ -500,12 +500,10 @@ a{
 #slider {
     width: 100%;
     height: 470px;
-    /* position: absolute; */
     margin: auto;
     overflow: hidden;
     position: relative;
     display: flex;
-    /* bottom: 36px; */
     z-index: 99999;
     align-items: flex-end;
 }

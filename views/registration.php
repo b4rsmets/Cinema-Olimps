@@ -4,7 +4,6 @@ class registration
 {
 
 }
-
 ?>
 <div class="reg-container">
     <form id="registration-form" action="">
@@ -19,9 +18,6 @@ class registration
             <hr class="line-reg">
             <p>Создавая аккаунт Вы соглашаетесь с <a href="#">Terms & Privacy</a>.</p>
             <button type="submit" id="reg-btn" class="registerbtn">Зарегистрироваться</button>
-        </div>
-        <div class="container-signin">
-            <p>У вас уже есть аккаунт? <a href="#">Войти</a>.</p>
         </div>
         <div id="error" class="error">
             <h2>Такой логин уже существует или пароль меньше 6 символов!</h2>

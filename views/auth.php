@@ -17,5 +17,8 @@ class auth
             <hr class="line-reg">
             <button type="submit" id="auth-btn" class="authbtn">Вход</button>
         </div>
+        <div class="container-signin">
+            <p>У вас уже есть аккаунт? <a href="/auth">Войти</a>.</p>
+        </div>
     </form>
 </div>
