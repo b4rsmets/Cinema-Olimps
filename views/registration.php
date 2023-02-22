@@ -4,7 +4,12 @@ class registration
 {
 
 }
+if (!empty($_SESSION['auth'])) {
+    header("location: /profile");
+}
+else{
 ?>
+
 <div class="reg-container">
     <form id="registration-form" action="">
         <div class="form-reg-container">
@@ -24,3 +29,5 @@ class registration
         </div>
     </form>
 </div>
+<?
+}

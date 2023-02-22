@@ -28,14 +28,14 @@
         </div>
     </div>
     <?
-    if (!empty($_SESSION['auth'] == null)){
+    if (!empty($_SESSION['auth'] == null)) {
        ?>
-        <a href="/auth"><div class="login"><img src="./resource/images/enter.png" alt=""><span>Войти в личный кабинет</span></div></a>
+        <a href="/auth"><div class="login"><img src="./resource/images/enter.png" alt=""><span>Личный кабинет</span></div></a>
     <?
     }
     else{
         ?>
-        <a href="/profile"><div class="login"><img src="./resource/images/enter.png" alt=""><span>Профиль</span></div></a>
+        <a href="/profile"><div class="login"><img src="./resource/images/enter.png" alt=""><span>Личный кабинет</span></div></a>
         <?
     }
     ?>

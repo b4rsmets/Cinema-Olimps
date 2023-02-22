@@ -4,7 +4,12 @@ class auth
 {
 
 }
-?>
+
+    if (!empty($_SESSION['auth'])) {
+        header("location: /profile");
+    }
+    else{
+    ?>
 <div class="reg-container">
     <form id="auth-form" action="">
         <div class="form-reg-container">
@@ -18,7 +23,9 @@ class auth
             <button type="submit" id="auth-btn" class="authbtn">Вход</button>
         </div>
         <div class="container-signin">
-            <p>У вас уже есть аккаунт? <a href="/auth">Войти</a>.</p>
+            <p>У вас нет аккаунта? <a href="/reg">Зарегистрироваться</a>.</p>
         </div>
     </form>
 </div>
+<?
+}

@@ -936,3 +936,17 @@ input[type=text]:focus, input[type=password]:focus {
     height: 40px;
     box-shadow: 0 4px 10px rgb(129 129 241 / 77%);
 }
+.authbtn{
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    transition: 1s;
+}
+.authbtn:hover{
+    opacity:1;
+}
