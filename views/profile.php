@@ -11,6 +11,7 @@ class profile
         } else {
             header("location: /auth");
         }
+
     }
 
     function viewProfile($result)
@@ -20,11 +21,22 @@ class profile
             <div class="user-info">
                 <h2>Информация о вас</h2>
                 <div class="name-user">
-                    <span>Имя:<span class="block-info-user-opacity"> <?=$_SESSION['role']['full_name'];?></span></span>
+                    <span>Имя:<span
+                                class="block-info-user-opacity"> <?= $_SESSION['role']['full_name']; ?></span></span>
                 </div>
                 <div class="email-user">
-                    <span>Email:<span> <?=$_SESSION['role']['email'];?></span></span>
+                    <span>Email:<span> <?= $_SESSION['role']['email']; ?></span></span>
                 </div>
+                <?
+                if (!empty($_SESSION['role']['role'] == 'admin')) {
+                    ?>
+                    <span>Вы админ</span>
+                    <?
+                }
+                ?>
+                <a href="#" id="logout-btn">Выход</a>
+
+
             </div>
             <div class="line-user-order"></div>
             <div class="order-user">

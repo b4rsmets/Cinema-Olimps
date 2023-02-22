@@ -39,3 +39,17 @@ $(document).ready(function () {
         });
     });
 });
+$(document).ready(function() {
+    $('#logout-btn').click(function(event) {
+        event.preventDefault(); // предотвращаем переход по ссылке
+        $.ajax({
+            url: '/ajax/logout.php',
+            success: function(response) {
+                window.location.href = '/auth';
+            },
+            error: function(xhr, status, error) {
+                alert('Произошла ошибка при выходе');
+            }
+        });
+    });
+});
