@@ -53,3 +53,16 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function(){
+    $("#get_movie_btn").click(function(){
+        var movie_id = $("#movie_id").val();
+        $.ajax({
+            type: "GET",
+            url: "/ajax/ajaxApi.php",
+            data: {id: movie_id},
+            success: function(data){
+                $("#movie_info").html(data);
+            }
+        });
+    });
+});
