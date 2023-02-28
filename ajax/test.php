@@ -6,6 +6,7 @@ $count = 0;
 foreach($seats as $item){
     $count++;
 }
-echo '<span> Выбрано билетов: '. $count .'</span>';
-echo '<span> Цена билета: '. $_POST["price"] .'</span>';
-echo '<span> Итоговая цена: '. $_POST["price"]*$count .'</span>';
+echo '<span> Билетов выбрано: '. $count .'</span>';
+echo '<span> Цена билета: '. $price .'</span>';
+echo '<span> Итоговая цена: '. $price*$count .'</span>';
+?>

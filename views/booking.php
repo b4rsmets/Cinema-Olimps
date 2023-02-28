@@ -7,10 +7,9 @@ class booking
     function render($data)
     {
         $date = date('Y-m-d');
-        if($date == $data['date_movie']){
+        if ($date == $data['date_movie']) {
             $this->viewPlace($data);
-        }
-        else{
+        } else {
             require './views/404.php';
         }
     }
@@ -24,7 +23,7 @@ class booking
         <div class="booking-container">
             <div class="left-container-booking">
                 <div class="img-booking-film">
-                    <img src="../resource/uploads/afisha/<?=$data['movie_image'] ?>" alt="">
+                    <img src="../resource/uploads/afisha/<?= $data['movie_image'] ?>" alt="">
                 </div>
                 <div class="under-img-booking">
                     <div class="left-status-container">
@@ -57,7 +56,7 @@ class booking
 
                     <div class="info-booking-film">
                         <div class="title-booking-film">
-                            <span><?=$data['movie_title'] ?></span>
+                            <span><?= $data['movie_title'] ?></span>
                         </div>
                     </div>
                     <div class="brone">
@@ -159,7 +158,7 @@ class booking
                             <div class="seat available">4</div>
                             <div data-seat="5-5" class="seat available">5</div>
                             <div data-seat="5-6" id="seatest" class="seat available">6</div>
-                            <div data-seat="5-7"class="seat available">7</div>
+                            <div data-seat="5-7" class="seat available">7</div>
 
                         </div>
                         <div class="examples-pick">
@@ -175,21 +174,21 @@ class booking
                             </div>
                             <div class="info-pay">
                                 <div id="seats-count">
-                                    <span>Билетов выбрано: <span class="selected_seat"></span></span>
-                                
+                                    <span>Билетов выбрано: <span class="selected_seat">0</span></span>
+
+                                </div>
+                                <div class="price-count" data-price=<?= $data['price'] ?>>
+                                    <span>Цена за один билет <?= $data['price'] ?></span>
+
+                                </div>
+                                <div class="price-itog">
+                                    <span>Итоговая цена: 0</span>
+                                </div>
+
                             </div>
-                            <div class="price-count" data-price=<?=$data['price'] ?>>
-                               <span>Цена за один билет <?=$data['price'] ?></span> 
-                               
-                            </div>
-                            <div class="price-itog">
-                            <span>Итоговая цена: 0</span>
-                            </div>
-              
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
 
         </div>

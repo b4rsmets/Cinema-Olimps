@@ -7,14 +7,14 @@ class profile
     function render()
     {
         if (!empty($_SESSION['auth'])) {
-            $this->viewProfile($_SESSION['auth']);
+            $this->viewProfile();
         } else {
             header("location: /auth");
         }
 
     }
 
-    function viewProfile($result)
+    function viewProfile()
     {
         ?>
         <div class="profile-container">
