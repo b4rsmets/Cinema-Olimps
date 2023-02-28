@@ -6,13 +6,8 @@ class api
 {
     function apiMovie()
     {
-        $idKp = 466;
-        try {
-            $url = file_get_contents("https://api.kinopoisk.dev/v1/movie/$idKp?token=0QXFJ1B-0GR4ZVZ-P3A4H88-7RP9J1W");
-        } catch (\Exception $e) {
-            return 'Фильм не найден';
-        }
-
+        $idKp = 441;
+        $url = file_get_contents("https://api.kinopoisk.dev/v1/movie/$idKp?token=0QXFJ1B-0GR4ZVZ-P3A4H88-7RP9J1W");
         $content = json_decode($url, true);
 
         $filteredContent = array(
@@ -31,4 +26,5 @@ class api
         file_put_contents('img/'.$filteredContent['id'].'.jpg', $imageContent);
         return $filteredContent;
     }
+
 }

@@ -109,7 +109,7 @@ class index
                         strtotime($one_seans['time_movie']) >= $now
                     ) {
                         $emply = false;
-                        echo '<a href="/booking"><div class="block-time">';
+                        echo "<a href='/booking?id=". $one_seans['movie_id'] ."&seans=". $one_seans['id'] ."'><div class='block-time'>";
                         echo '<h2>' . date("G:i", strtotime($one_seans['time_movie'])) . '<span class="price-seans">' . $one_seans['price'] . ' ₽</span></h2>';
                         echo '</div></a>';
                     }

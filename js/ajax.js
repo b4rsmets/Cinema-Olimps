@@ -54,15 +54,35 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function(){
-    $("#get_movie_btn").click(function(){
-        var movie_id = $("#movie_id").val();
-        $.ajax({
-            type: "GET",
-            url: "/ajax/ajaxApi.php",
-            data: {id: movie_id},
-            success: function(data){
-                $("#movie_info").html(data);
+    var selectedSeats = [];
+    var price= $(".price-count").attr('data-price');
+    $(".seat.available, .seat.pick").on("click",function(){
+        if($(this).hasClass("available")){
+            $(this).removeClass("available").addClass("pick");
+
+            selectedSeats.push($(this).attr('data-seat'));
+        }
+        else if($(this).hasClass("pick")){
+            $(this).removeClass("pick").addClass("available");
+            var index = selectedSeats.indexOf($(this).attr('data-seat'));
+            if(index > -1){
+                selectedSeats.splice(index, 1)
             }
-        });
-    });
-});
+        }
+        console.log(selectedSeats.lenght + " Место выбрано: " + selectedSeats.join(", "));
+        test = new Array();
+$.ajax({
+    url: "../ajax/test.php",
+    type: "POST",
+    dataType: "json",
+    data:{
+        seats: JSON.stringify(selectedSeats),
+        price: price
+    },
+    success: function(data){
+        test = JSON.parse(data);
+        $('.selected_seat').html(response);
+    }
+})
+})
+})

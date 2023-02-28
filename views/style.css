@@ -912,14 +912,15 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
     flex-wrap: nowrap;
 }
 .examples-pick{
-    width: 302px;
+    width: 718px;
     height: 128px;
     margin-top: 50px;
     display: flex;
 }
 .desc-info-pick {
     color: #fff;
-    width: 364px;
+    width: 961px;
+    margin-right: 99px;
     display: flex;
     flex-direction: column;
 }
@@ -970,4 +971,26 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
 }
 .authbtn:hover{
     opacity:1;
+}
+#seats-count{
+    width: 660px;
+    margin-bottom: 29px;
+    margin-top: 5px;
+}
+#seats-count>span{
+    color: white;
+}
+.info-pay{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+.price-count>span{
+    color: #fff;
+}
+.price-itog {
+    color: #fff;
+}
+.price-count {
+    margin-bottom: 26px;
 }
