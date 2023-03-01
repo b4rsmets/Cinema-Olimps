@@ -61,7 +61,7 @@ class profile
                     <div class="qr-code-container">
                         <?
                         
-                        QRcode::png('PHP QR Code :)');
+
                         ?>
                     </div>
                 </div>

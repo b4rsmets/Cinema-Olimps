@@ -4,6 +4,7 @@ namespace views;
 
 class booking
 {
+
     function render($data, $seats)
     {
         $date = date('Y-m-d');
@@ -69,7 +70,7 @@ class booking
                             if (is_array($seats))
                             foreach ($seats as $seat) {
                             ?>
-                            <div  data-seat="<?=$seat['row']?>-<?=$seat['place']?>" class="seat <?if($seat['booking'] == 1){echo "unavailable";} else{echo "available";}?>"><?=$seat['place']?></div>
+                            <div data-seat="<?=$seat['row']?>-<?=$seat['place']?>" class="seat <?if($seat['booking'] == 1){echo "unavailable";} else{echo "available";}?>"><?=$seat['place']?></div>
                             <?}
                             ?>
                         </div>
@@ -105,6 +106,6 @@ class booking
 
         </div>
         <?
+
     }
-    
 }

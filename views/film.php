@@ -6,10 +6,13 @@ class film
 {
 
 
-    function render($film)
-    {
-        $this->viewDates();
-        $this->viewFilm($film);
+    function render($film) {
+        if (!$film['films'] == null) {
+            $this->viewDates();
+            $this->viewFilm($film);
+        } else {
+            require './views/404.php';
+        }
     }
 
     function viewDates()

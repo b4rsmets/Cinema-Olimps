@@ -2,6 +2,8 @@
 
 namespace controllers;
 
+use views\admin;
+
 class mainController
 {
 
