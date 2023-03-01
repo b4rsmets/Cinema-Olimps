@@ -2,6 +2,8 @@
 
 namespace views;
 
+use QRcode;
+
 class profile
 {
     function render()
@@ -57,7 +59,10 @@ class profile
                         </div>
                     </div>
                     <div class="qr-code-container">
-                        <img src="../resource/qrcodes/32131231.png" alt="">
+                        <?
+                        
+                        QRcode::png('PHP QR Code :)');
+                        ?>
                     </div>
                 </div>
 

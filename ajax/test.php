@@ -1,5 +1,4 @@
 <?
-$test = json_decode($_POST["response"]);
 $seats = json_decode($_POST["seats"]);
 $price = json_decode($_POST["price"]);
 $count = 0;

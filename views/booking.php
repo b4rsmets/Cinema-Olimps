@@ -4,18 +4,19 @@ namespace views;
 
 class booking
 {
-    function render($data)
+    function render($data, $seats)
     {
         $date = date('Y-m-d');
         if ($date == $data['date_movie']) {
-            $this->viewPlace($data);
+            $this->viewPlace($data,$seats);
+            
         } else {
             require './views/404.php';
         }
     }
 
 
-    function viewPlace($data)
+    function viewPlace($data,$seats)
     {
 
 
@@ -62,104 +63,15 @@ class booking
                     <div class="brone">
                         <div class="screen"></div>
                         <div class="seats">
-                            <div class="seat available">1</div>
-                            <div class="seat unavailable">2</div>
-                            <div class="seat available">3</div>
-                            <div class="seat available">4</div>
-                            <div class="seat available">5</div>
-                            <div class="seat available">6</div>
-                            <div class="seat available">7</div>
-                            <div class="seat available">8</div>
-                            <div class="seat available">9</div>
-                            <div class="seat available">10</div>
-                            <div class="seat available">11</div>
-                            <div class="seat available">12</div>
-                            <div class="seat available">13</div>
-                            <div class="seat available">14</div>
-                            <div class="seat unavailable">15</div>
-                            <div class="seat available">16</div>
-                            <div class="seat available">17</div>
-                            <div class="seat unavailable">18</div>
-                            <div class="seat available">1</div>
-                            <div class="seat available">2</div>
-                            <div class="seat available">3</div>
-                            <div class="seat available">4</div>
-                            <div class="seat available">5</div>
-                            <div class="seat available">6</div>
-                            <div class="seat available">7</div>
-                            <div class="seat available">8</div>
-                            <div class="seat available">9</div>
-                            <div class="seat available">10</div>
-                            <div class="seat available">11</div>
-                            <div class="seat unavailable">12</div>
-                            <div class="seat available">13</div>
-                            <div class="seat available">14</div>
-                            <div class="seat available">15</div>
-                            <div class="seat available">16</div>
-                            <div class="seat available">17</div>
-                            <div class="seat available">18</div>
-                            <div class="seat available">1</div>
-                            <div class="seat unavailable">2</div>
-                            <div class="seat available">3</div>
-                            <div class="seat available">4</div>
-                            <div class="seat available">5</div>
-                            <div class="seat available">6</div>
-                            <div class="seat available">7</div>
-                            <div class="seat available">8</div>
-                            <div class="seat available">9</div>
-                            <div class="seat available">10</div>
-                            <div class="seat available">11</div>
-                            <div class="seat available">12</div>
-                            <div class="seat available">13</div>
-                            <div class="seat available">14</div>
-                            <div class="seat unavailable">15</div>
-                            <div class="seat available">16</div>
-                            <div class="seat available">17</div>
-                            <div class="seat available">18</div>
-                            <div class="seat available">1</div>
-                            <div class="seat unavailable">2</div>
-                            <div class="seat available">3</div>
-                            <div class="seat available">4</div>
-                            <div class="seat available">5</div>
-                            <div class="seat available">6</div>
-                            <div class="seat available">7</div>
-                            <div class="seat available">8</div>
-                            <div class="seat available">9</div>
-                            <div class="seat unavailable">10</div>
-                            <div class="seat available">11</div>
-                            <div class="seat unavailable">12</div>
-                            <div class="seat available">13</div>
-                            <div class="seat available">14</div>
-                            <div class="seat available">15</div>
-                            <div class="seat available">16</div>
-                            <div class="seat available">17</div>
-                            <div class="seat available">18</div>
-                            <div class="seat available">1</div>
-                            <div class="seat available">2</div>
-                            <div class="seat available">3</div>
-                            <div class="seat available">4</div>
-                            <div class="seat available">5</div>
-                            <div class="seat available">6</div>
-                            <div class="seat available">7</div>
-                            <div class="seat available">8</div>
-                            <div class="seat available">9</div>
-                            <div class="seat available">10</div>
-                            <div class="seat available">11</div>
-                            <div class="seat available">12</div>
-                            <div class="seat available">13</div>
-                            <div class="seat available">14</div>
-                            <div class="seat available">15</div>
-                            <div class="seat available">16</div>
-                            <div class="seat available">17</div>
-                            <div class="seat available">18</div>
-                            <div class="seat available">1</div>
-                            <div class="seat available">2</div>
-                            <div class="seat available">3</div>
-                            <div class="seat available">4</div>
-                            <div data-seat="5-5" class="seat available">5</div>
-                            <div data-seat="5-6" id="seatest" class="seat available">6</div>
-                            <div data-seat="5-7" class="seat available">7</div>
 
+                            <?
+                            
+                            if (is_array($seats))
+                            foreach ($seats as $seat) {
+                            ?>
+                            <div  data-seat="<?=$seat['row']?>-<?=$seat['place']?>" class="seat <?if($seat['booking'] == 1){echo "unavailable";} else{echo "available";}?>"><?=$seat['place']?></div>
+                            <?}
+                            ?>
                         </div>
                         <div class="examples-pick">
                             <div class="info-pick-brone">
@@ -194,4 +106,5 @@ class booking
         </div>
         <?
     }
+    
 }

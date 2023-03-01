@@ -17,4 +17,13 @@ class book
         }
         return $book;
     }
+    function getSeats($hall_id, $seans_id){
+        $query = $this->connect->query("SELECT * FROM seats WHERE hall_id = $hall_id AND seans_id = $seans_id");
+        if ($query->num_rows) {
+            while ($row = $query->fetch_assoc()) {
+                $seats[] = $row;
+            }
+        }
+        return $seats;
+    }
 }
