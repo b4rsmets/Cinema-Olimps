@@ -1,7 +1,7 @@
 <?php
 
-namespace views;
-class admin
+namespace admin\views;
+class dashboard
 {
     function render()
     {
