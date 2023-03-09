@@ -4,6 +4,5 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 RewriteRule ^(.*)$ index.php?route=$1 [L,QSA]
-RewriteRule ^film/([^/]*)$ /film?id=$1 [L]
 AddDefaultCharset UTF-8
 php_flag magic_quotes_gpc Off

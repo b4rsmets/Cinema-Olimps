@@ -8,14 +8,7 @@ class mainController
     function __construct()
     {
         $url = explode("/", $_GET['route']);
-
-        if ($url[0] == "admin" && empty($url[1])) {
-            // load adminController when accessing /admin
-            require_once "./controllers/admin/dashboardController.php";
-            return;
-        }
-
-        if (explode("/", $_GET['route'])[0] != "ajax" && explode("/", $_GET['route'])[0] != "admin") {
+        if (explode("/", $_GET['route'])[0] != "ajax" && explode("/", $_GET['route'])[0] != "panel") {
             // load header
             require_once "./views/header.php";
 
@@ -33,11 +26,11 @@ class mainController
 
             // load footer
             require_once "./views/footer.php";
-        } elseif (explode("/", $_GET['route'])[0] == "admin") {
+        } elseif (explode("/", $_GET['route'])[0] == "panel") {
             // load admin controllers and views
-            $adminRoute = str_replace("admin/", "", $_GET['route']);
+            $adminRoute = str_replace("admin/", "", "dashboard");
             $adminControllerName = "admin\controllers\\" . $adminRoute . "Controller";
-            $adminViewPath = str_replace("admin/", "", $_GET['route']);
+            $adminViewPath = str_replace("admin/", "", "dashboard");
             if ($url[0]) {
 
 
