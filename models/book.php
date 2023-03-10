@@ -26,4 +26,14 @@ class book
         }
         return $seats;
     }
+    
+    function getInfoSeat($booking){
+        $query = $this->connect->query("SELECT * FROM orders,seats,seans WHERE orders.id_seat = seats.id AND orders.id_seans = seans.id");
+        if ($query->num_rows) {
+            while ($row = $query->fetch_assoc()) {
+                $booking[] = $row;
+            }
+        }
+        return $booking;
+    }
 }

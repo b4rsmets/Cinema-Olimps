@@ -10,7 +10,8 @@ class bookingController
         $bookingmodel = new \models\book();
         $data = $bookingmodel->getBookSeans($_GET['id'],$_GET['seans']);
         $seats = $bookingmodel->getSeats($data['hall_id'],$data['id']);
+        $booking = $bookingmodel->getInfoSeat($booking['id_seat']);
         $indexView = new \views\booking();
-        $indexView->render($data, $seats);
+        $indexView->render($data, $seats, $booking);
     }
 }

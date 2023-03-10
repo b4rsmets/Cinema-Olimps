@@ -5,19 +5,19 @@ namespace views;
 class booking
 {
 
-    function render($data, $seats)
+    function render($data, $seats, $booking)
     {
         $date = date('Y-m-d');
         if ($date == $data['date_movie']) {
-            $this->viewPlace($data,$seats);
-            
+            $this->viewPlace($data, $seats, $booking);
+
         } else {
             require './views/404.php';
         }
     }
 
 
-    function viewPlace($data,$seats)
+    function viewPlace($data, $seats, $booking)
     {
 
 
@@ -66,12 +66,20 @@ class booking
                         <div class="seats">
 
                             <?
-                            
+
                             if (is_array($seats))
-                            foreach ($seats as $seat) {
-                            ?>
-                            <div data-seat="<?=$seat['row']?>-<?=$seat['place']?>" class="seat <?if($seat['booking'] == 1){echo "unavailable";} else{echo "available";}?>"><?=$seat['place']?></div>
-                            <?}
+                                foreach ($booking as $book) {
+                                    foreach ($seats as $seat) {
+                                        ?>
+                                        <div data-seat="<?= $seat['row'] ?>-<?= $seat['place'] ?>"
+                                             class="seat <? if ($book['id_seat'] == $seat['id']) {
+                                                 echo "unavailable";
+                                             } else {
+                                                 echo "available";
+                                             } ?>"><?= $seat['place'] ?></div>
+                                    <?
+                                    }
+                                }
                             ?>
                         </div>
                         <div class="examples-pick">
