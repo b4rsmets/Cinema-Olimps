@@ -654,7 +654,7 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
 }
 .notfound-container{
     width: 60%;
-    height: 300px;
+    height: 448px;
     margin: auto;
 }
 .notfound-container>.big-text{
@@ -1301,4 +1301,29 @@ Credit Card
     right: 14px;
     position: relative;
 
+}
+.age-booking-film{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    background-color: rgb(153,153,153);
+    border-radius: 29%;
+    color: white;
+    margin-bottom: 16px;
+    align-items: center;
+    justify-content: center;
+}
+.age-booking-film>span{
+    font-weight: bold;
+    font-size: 19px;
+}
+.duration-booking-film{
+    width: 246px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.duration-booking-film>span{
+    opacity: 0.7;
+    margin-top: 2px;
 }

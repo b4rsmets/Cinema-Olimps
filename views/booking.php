@@ -8,11 +8,13 @@ class booking
     function render($data, $seats, $booking)
     {
         $date = date('Y-m-d');
-        if ($date == $data['date_movie']) {
+        $time = date("H:i:s");
+        $timeSeans = date("H:i:s", strtotime($data['time_movie']));
+        if ($date == $data['date_movie'] && $time < $timeSeans) {
             $this->viewPlace($data, $seats, $booking);
 
         } else {
-            require './views/404.php';
+            require './views/seansUnavaiable.php';
         }
     }
 
@@ -59,7 +61,15 @@ class booking
                     <div class="info-booking-film">
                         <div class="title-booking-film">
                             <span><?= $data['movie_title'] ?></span>
+                            <div class="age-booking-film">
+                                <span><?= $data['movie_restriction'] ?>+</span>
+                            </div>
+                            <div class="duration-booking-film">
+                                <h3>Длительность: </h3>
+                                <span><?= date("g \ч. i \мин.", strtotime($data['movie_duration'])); ?></span>
+                            </div>
                         </div>
+
                     </div>
                     <div class="brone">
                         <div class="screen"></div>
@@ -67,19 +77,20 @@ class booking
 
                             <?
 
-                            if (is_array($seats))
-                                foreach ($booking as $book) {
-                                    foreach ($seats as $seat) {
+                            if (is_array($seats)) {
+                                foreach ($seats as $seat) {
+                                    foreach ($booking as $book) {
                                         ?>
-                                        <div data-seat="<?= $seat['row'] ?>-<?= $seat['place'] ?>"
-                                             class="seat <? if ($book['id_seat'] == $seat['id']) {
-                                                 echo "unavailable";
-                                             } else {
-                                                 echo "available";
-                                             } ?>"><?= $seat['place'] ?></div>
-                                    <?
-                                    }
+                                        <div data-seat="<?= $seat['row'] ?>-<?= $seat['place'] ?>" class="seat <? if ($book['id_seat'] == $seat['id'] && $book['seans_id'] == $seat['seans_id']) {
+                                            echo "available";
+                                        } else {
+                                            echo "unavailable";
+                                        }
+                                    } ?>"><?php echo $seat['place'] ?></div>
+                                        <?php
+
                                 }
+                            }
                             ?>
                         </div>
                         <div class="examples-pick">

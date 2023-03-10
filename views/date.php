@@ -1,5 +1,4 @@
-<?
-date_default_timezone_set('Asia/Barnaul');
+<?php
 $date = date('d.m.Y H:i');
 $href = (isset($_GET['id'])) ? "?id=" . $_GET['id'] . "&date=" : "?date=";
 $monthes = array(
@@ -16,9 +15,9 @@ $days = array(
     <div class="choose-date">
         <a href="<?= $href . date('Y-m-d') ?>">Сегодня</a>
         <a href="<?= $href . date('Y-m-d', strtotime('+1 day')) ?>">Завтра</a>
-        <a href="<?= $href . date('Y-m-d', strtotime('+2 day')) ?>"> <? echo $days[(date('w', strtotime('+2 day')))]; ?></a>
-        <a href="<?= $href . date('Y-m-d', strtotime('+3 day')) ?>"><? echo $days[(date('w', strtotime('+3 day')))]; ?></a>
-        <a href="<?= $href . date('Y-m-d', strtotime('+4 day')) ?>"> <? echo $days[(date('w', strtotime('+4 day')))]; ?></a>
-        <a href="<?= $href . date('Y-m-d', strtotime('+5 day')) ?>"> <? echo $days[(date('w', strtotime('+5 day')))]; ?></a>
+        <a href="<?= $href . date('Y-m-d', strtotime('+2 day')) ?>"> <?php echo $days[(date('w', strtotime('+2 day')))]; ?></a>
+        <a href="<?= $href . date('Y-m-d', strtotime('+3 day')) ?>"><?php echo $days[(date('w', strtotime('+3 day')))]; ?></a>
+        <a href="<?= $href . date('Y-m-d', strtotime('+4 day')) ?>"> <?php echo $days[(date('w', strtotime('+4 day')))]; ?></a>
+        <a href="<?= $href . date('Y-m-d', strtotime('+5 day')) ?>"> <?php echo $days[(date('w', strtotime('+5 day')))]; ?></a>
     </div>
 </div>
