@@ -77,20 +77,35 @@ class booking
 
                             <?
 
-                            if (is_array($seats)) {
-                                foreach ($seats as $seat) {
-                                    foreach ($booking as $book) {
-                                        ?>
-                                        <div data-seat="<?= $seat['row'] ?>-<?= $seat['place'] ?>" class="seat <? if ($book['id_seat'] == $seat['id'] && $book['seans_id'] == $seat['seans_id']) {
-                                            echo "available";
-                                        } else {
-                                            echo "unavailable";
-                                        }
-                                    } ?>"><?php echo $seat['place'] ?></div>
-                                        <?php
+if (is_array($seats)) { 
+    foreach ($seats as $seat) { 
+        $is_booked = false;
+        foreach ($booking as $book) { 
+            if ($book['id_seat'] == $seat['id'] && $book['id_seans'] == $data["id"]) { 
+                $is_booked = true;
+                break;
+            } 
+        }
 
-                                }
-                            }
+
+        
+        ?> 
+        
+        <div data-seat="<?= $seat['row'] ?>-<?= $seat['place'] ?>" class="seat <?php echo $is_booked ? "unavailable" : "available"; ?>">
+            <?php echo $seat['place'] ?>
+        </div> 
+        <?php 
+
+    } 
+}
+if($seats == null){
+    ?>
+    <div class="err-seats">
+        <span>Места пока что недоступны</span>
+    </div>
+        
+    <?
+}
                             ?>
                         </div>
                         <div class="examples-pick">
@@ -105,8 +120,8 @@ class booking
                                 <span>- Выбранное место</span>
                             </div>
                             <div class="info-pay">
-                                <div id="seats-count">
-                                    <span>Билетов выбрано: <span class="selected_seat">0</span></span>
+                                <div id="seats-count"  data-book="15-1">
+                                    <span>Билетов выбрано: <span class="selected_seat"></span><?=var_dump($_SESSION['pickedseat'])?></span>
 
                                 </div>
                                 <div class="price-count" data-price=<?= $data['price'] ?>>
@@ -118,8 +133,12 @@ class booking
                                 </div>
 
                             </div>
+                            <div class="btn-order">
+                        <input type="submit" value="Оформить заказ">
+                    </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
 

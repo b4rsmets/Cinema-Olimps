@@ -18,7 +18,7 @@ class book
         return $book;
     }
     function getSeats($hall_id){
-        $query = $this->connect->query("SELECT * FROM seats,halls WHERE hall_id = $hall_id");
+        $query = $this->connect->query("SELECT seats.id, seats.hall_id, seats.row, seats.place, seats.seans_id, halls.hall_name, halls.hall_close FROM seats,halls WHERE hall_id = $hall_id");
         if ($query->num_rows) {
             while ($row = $query->fetch_assoc()) {
                 $seats[] = $row;

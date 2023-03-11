@@ -74,13 +74,31 @@ $(document).ready(function () {
             type: "POST",
             dataType: "json",
             data: {
-                seats: JSON.stringify(selectedSeats),
-                price: price
+                seats: selectedSeats
             },
             success: function (response) {
-                response = data;
-                $('.selected_seat').html(response);
+                var content = $(response).find('.info-pay'); // Получаем содержимое нужного элемента
+                container.html(content.html());
             }
         })
     })
 })
+$(document).ready(function() {
+    $('.choose-date a').click(function(e) {
+        e.preventDefault(); // Отменяем стандартное поведение ссылки
+        $('.choose-date a').removeClass('active'); // Удаляем класс active у всех ссылок
+        $(this).addClass('active'); // Добавляем класс active к выбранной ссылке
+        var href = $(this).attr('href'); // Получаем ссылку, на которую кликнули
+        var container = $('.container-catalog'); // Ищем элемент с классом container-times
+        if (container.length == 0) {
+            container = $('.container-film'); // Если не нашли элемент с классом container-times, то ищем элемент с классом container-card
+        }
+        $.ajax({
+            url: href,
+            success: function(data) {
+                var content = $(data).find('.container-catalog'); // Получаем содержимое нужного элемента
+                container.html(content.html()); // Обновляем содержимое на странице
+            }
+        });
+    });
+});

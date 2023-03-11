@@ -912,15 +912,15 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
     flex-wrap: nowrap;
 }
 .examples-pick{
-    width: 718px;
+    width: 840px;
     height: 128px;
     margin-top: 50px;
     display: flex;
 }
 .desc-info-pick {
     color: #fff;
-    width: 961px;
-    margin-right: 99px;
+    width: 190px;
+    margin-right: 50px;
     display: flex;
     flex-direction: column;
 }
@@ -981,7 +981,7 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
     color: white;
 }
 .info-pay{
-    width: 400px;
+    width: 338px;
     display: flex;
     flex-direction: column;
 }
@@ -1327,3 +1327,34 @@ Credit Card
     opacity: 0.7;
     margin-top: 2px;
 }
+.err-seats{
+    width: 300px;
+    height: 100px;
+}
+.err-seats>span{
+    font-weight: bold;
+    color: #fff;
+    font-size: 19px;
+}
+.btn-order{
+    margin-top: 40px;
+}
+.btn-order>input[type=submit] {
+    background-color: #0693cd;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    font-size:16px;
+    font-weight: bold;
+    line-height: 1.4;
+    padding: 10px;
+    width: 180px;
+    transition: 0.5s;
+  }
+  .btn-order>input[type=submit]:hover{
+    box-shadow: 0 4px 10px rgb(0 0 0 / 100%);
+  }
+.active{
+    border: 1px solid #5C2583 !important; 
+  }
