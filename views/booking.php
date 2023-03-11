@@ -121,9 +121,9 @@ class booking
                                 <span>- Выбранное место</span>
                             </div>
                             <div class="info-pay">
-                                <div id="seats-count" data-book="15-1">
+                                <div id="seats-count" data-book="">
                                     <span>Билетов выбрано: <span
-                                                class="selected_seat"></span><?= var_dump($_SESSION['pickedseat']) ?></span>
+                                                class="selected_seat"></span>0</span>
 
                                 </div>
                                 <div class="price-count" data-price=<?= $data['price'] ?>>
@@ -136,6 +136,7 @@ class booking
 
                             </div>
                             <div class="btn-order">
+
                                 <input type="submit" value="Оформить заказ">
                             </div>
                         </div>

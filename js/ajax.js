@@ -64,6 +64,7 @@ $(document).ready(function () {
         } else if ($(this).hasClass("pick")) {
             $(this).removeClass("pick").addClass("available");
             var index = selectedSeats.indexOf($(this).attr('data-seat'));
+            var index = selectedSeats.indexOf($(this).attr('data-seat'));
             if (index > -1) {
                 selectedSeats.splice(index, 1)
             }
@@ -72,13 +73,12 @@ $(document).ready(function () {
         $.ajax({
             url: "../ajax/test.php",
             type: "POST",
-            dataType: "json",
+            dataType: "html", // Изменяем тип данных на "html", т.к. ответ содержит HTML-разметку
             data: {
-                seats: selectedSeats
+                seats: selectedSeats, price: price
             },
             success: function (response) {
-                var content = $(response).find('.info-pay'); // Получаем содержимое нужного элемента
-                container.html(content.html());
+                $('.info-pay').html(response);
             }
         })
     })
@@ -122,14 +122,3 @@ $.ajax({
         });
     }
 });
-
-// Функция для получения значения GET-параметра по имени
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
