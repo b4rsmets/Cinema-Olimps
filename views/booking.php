@@ -10,9 +10,10 @@ class booking
         $date = date('Y-m-d');
         $time = date("H:i:s");
         $timeSeans = date("H:i:s", strtotime($data['time_movie']));
-        if ($date == $data['date_movie'] && $time < $timeSeans) {
-            $this->viewPlace($data, $seats, $booking);
+        $movieDate = strtotime($data['date_movie']);
 
+        if ($movieDate >= strtotime($date) && ($movieDate == strtotime($date) && $time < $timeSeans || $movieDate > strtotime($date))) {
+            $this->viewPlace($data, $seats, $booking);
         } else {
             require './views/seansUnavaiable.php';
         }
@@ -77,35 +78,35 @@ class booking
 
                             <?
 
-if (is_array($seats)) { 
-    foreach ($seats as $seat) { 
-        $is_booked = false;
-        foreach ($booking as $book) { 
-            if ($book['id_seat'] == $seat['id'] && $book['id_seans'] == $data["id"]) { 
-                $is_booked = true;
-                break;
-            } 
-        }
+                            if (is_array($seats)) {
+                                foreach ($seats as $seat) {
+                                    $is_booked = false;
+                                    foreach ($booking as $book) {
+                                        if ($book['id_seat'] == $seat['id'] && $book['id_seans'] == $data["id"]) {
+                                            $is_booked = true;
+                                            break;
+                                        }
+                                    }
 
 
-        
-        ?> 
-        
-        <div data-seat="<?= $seat['row'] ?>-<?= $seat['place'] ?>" class="seat <?php echo $is_booked ? "unavailable" : "available"; ?>">
-            <?php echo $seat['place'] ?>
-        </div> 
-        <?php 
+                                    ?>
 
-    } 
-}
-if($seats == null){
-    ?>
-    <div class="err-seats">
-        <span>Места пока что недоступны</span>
-    </div>
-        
-    <?
-}
+                                    <div data-seat="<?= $seat['row'] ?>-<?= $seat['place'] ?>"
+                                         class="seat <?php echo $is_booked ? "unavailable" : "available"; ?>">
+                                        <?php echo $seat['place'] ?>
+                                    </div>
+                                    <?php
+
+                                }
+                            }
+                            if ($seats == null) {
+                                ?>
+                                <div class="err-seats">
+                                    <span>Места пока что недоступны</span>
+                                </div>
+
+                                <?
+                            }
                             ?>
                         </div>
                         <div class="examples-pick">
@@ -120,8 +121,9 @@ if($seats == null){
                                 <span>- Выбранное место</span>
                             </div>
                             <div class="info-pay">
-                                <div id="seats-count"  data-book="15-1">
-                                    <span>Билетов выбрано: <span class="selected_seat"></span><?=var_dump($_SESSION['pickedseat'])?></span>
+                                <div id="seats-count" data-book="15-1">
+                                    <span>Билетов выбрано: <span
+                                                class="selected_seat"></span><?= var_dump($_SESSION['pickedseat']) ?></span>
 
                                 </div>
                                 <div class="price-count" data-price=<?= $data['price'] ?>>
@@ -134,11 +136,11 @@ if($seats == null){
 
                             </div>
                             <div class="btn-order">
-                        <input type="submit" value="Оформить заказ">
-                    </div>
+                                <input type="submit" value="Оформить заказ">
+                            </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
