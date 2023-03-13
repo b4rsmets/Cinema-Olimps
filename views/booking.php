@@ -70,6 +70,14 @@ class booking
                                 <span><?= date("g \ч. i \мин.", strtotime($data['movie_duration'])); ?></span>
                             </div>
                         </div>
+                        <div class="time-date-booking-film">
+                            <div class="time-film">
+                                <img src="../resource/images/cloak.png" alt=""> <span><?= date("G:i", strtotime($data['time_movie']))?></span>
+                            </div>
+                            <div class="date-film">
+                                <img src="../resource/images/calendar.png" alt="">  <span><?= date("F j", strtotime($data['date_movie']))?></span>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="brone">

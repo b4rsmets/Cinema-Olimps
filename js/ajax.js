@@ -71,7 +71,7 @@ $(document).ready(function () {
         }
         console.log(selectedSeats.lenght + " Место выбрано: " + selectedSeats.join(", "));
         $.ajax({
-            url: "../ajax/test.php",
+            url: "../ajax/ajaxBooking.php",
             type: "POST",
             dataType: "html", // Изменяем тип данных на "html", т.к. ответ содержит HTML-разметку
             data: {

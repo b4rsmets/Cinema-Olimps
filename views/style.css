@@ -800,6 +800,7 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
 }
 .info-booking-film {
     width: 100%;
+    display: flex;
     height: 298px;
     color: #fff;
 }
@@ -1351,10 +1352,34 @@ Credit Card
     padding: 10px;
     width: 180px;
     transition: 0.5s;
-  }
-  .btn-order>input[type=submit]:hover{
+}
+.btn-order>input[type=submit]:hover{
     box-shadow: 0 4px 10px rgb(0 0 0 / 100%);
-  }
+}
 .active{
-    border: 1px solid #5C2583 !important; 
-  }
+    border: 1px solid #5C2583 !important;
+}
+.time-date-booking-film{
+    width: 114px;
+    margin-top: 42px;
+    display: flex;
+    margin-left: 119px;
+    height: 100px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: space-between;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+}
+.time-film img, .date-film img {
+    height: 25px; /* установите желаемую высоту */
+    margin-right: 10px;
+    width: 25px; /* установите желаемую ширину */
+}
+.time-film , .date-film {
+    display: flex;
+    width: 105px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}

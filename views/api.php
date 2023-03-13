@@ -10,6 +10,7 @@ class api
 
     function viewApi($test)
     {
+
         print_r($test);
     ?>
         <img src="/img/<?=$test['id']?>.jpg" alt="">

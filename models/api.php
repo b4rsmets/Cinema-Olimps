@@ -6,7 +6,7 @@ class api
 {
     function apiMovie()
     {
-        $idKp = 441;
+        $idKp = 667;
         $url = file_get_contents("https://api.kinopoisk.dev/v1/movie/$idKp?token=0QXFJ1B-0GR4ZVZ-P3A4H88-7RP9J1W");
         $content = json_decode($url, true);
 
@@ -21,9 +21,11 @@ class api
             'kpRating' => substr($content['rating']['kp'], 0, 3),
             'age' => $content['ageRating']
         );
-        $imageContent = file_get_contents($filteredContent['poster']);
-
-        file_put_contents('img/'.$filteredContent['id'].'.jpg', $imageContent);
+        $imagePath = 'img/'.$filteredContent['id'].'.jpg';
+        if (!file_exists($imagePath)) {
+            $imageContent = file_get_contents($filteredContent['poster']);
+            file_put_contents($imagePath, $imageContent);
+        }
         return $filteredContent;
     }
 
