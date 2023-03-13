@@ -1,14 +1,12 @@
 <?php
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(!$_POST['selected_seat']==0){
-    $_SESSION['order'] = $_POST['book'];
-
-    // здесь можно обработать данные и вернуть какой-то результат
-    $result = 'Заказ оформлен!';
-
-    echo $result;
-}
-    else {
-        echo 'Ошибка';
+    if ($_POST['selected_seat'] != 0) {
+        if (isset($_POST['book'])) {
+            $bookData = $_SESSION['pickedSeat']['seats'];
+            echo $bookData;
+        }
+    } else {
+        die;
     }
 }

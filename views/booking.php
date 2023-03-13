@@ -147,7 +147,7 @@ class booking
 
                                 <form id="order-form">
                                     <input type="hidden" name="book" value="<?=$dataBook?>">
-                                    <input type="submit" id="btn-order" value="Оформить заказ">
+                                    <input type="submit" id="btnorder" value="Оформить заказ">
                                 </form>
                             </div>
                         </div>

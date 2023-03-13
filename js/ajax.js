@@ -108,7 +108,7 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
-    $('#btn-order').click(function(e) {
+    $('#btnorder').click(function(e) {
         e.preventDefault(); // предотвращаем перезагрузку страницы
 
         var bookData = $('#seats-count').data('book');
@@ -117,9 +117,11 @@ $(document).ready(function() {
         $.ajax({
             url: '../ajax/ajaxOrder.php',
             type: 'POST',
-            data: {book: bookData, selected_seat: selectedSeat},
+            data: {
+                book: JSON.stringify(bookData),
+                selected_seat: selectedSeat
+            },
             success: function(response) {
-                // обрабатываем успешный ответ от сервера
             },
             error: function(xhr, status, error) {
                 // обрабатываем ошибку
