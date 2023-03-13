@@ -64,7 +64,6 @@ $(document).ready(function () {
         } else if ($(this).hasClass("pick")) {
             $(this).removeClass("pick").addClass("available");
             var index = selectedSeats.indexOf($(this).attr('data-seat'));
-            var index = selectedSeats.indexOf($(this).attr('data-seat'));
             if (index > -1) {
                 selectedSeats.splice(index, 1)
             }
@@ -81,6 +80,7 @@ $(document).ready(function () {
                 $('.info-pay').html(response);
             }
         })
+
     })
 })
 $(document).ready(function() {
@@ -107,18 +107,23 @@ $(document).ready(function() {
         });
     });
 });
-$.ajax({
-    url: href,
-    success: function(data) {
-        var content = $(data).find('.container-catalog'); // Получаем содержимое нужного элемента
-        container.html(content.html()); // Обновляем содержимое на странице
-        // Добавляем movie_id и id к ссылке на бронирование
-        $('.block-time a').each(function() {
-            var href = $(this).attr('href');
-            var movie_id = getParameterByName('id', href);
-            var seans_id = getParameterByName('seans', href);
-            href = '/booking?id=' + movie_id + '&seans=' + seans_id;
-            $(this).attr('href', href);
+$(document).ready(function() {
+    $('#btn-order').click(function(e) {
+        e.preventDefault(); // предотвращаем перезагрузку страницы
+
+        var bookData = $('#seats-count').data('book');
+        var selectedSeat = $('.selected_seat').text();
+
+        $.ajax({
+            url: '../ajax/ajaxOrder.php',
+            type: 'POST',
+            data: {book: bookData, selected_seat: selectedSeat},
+            success: function(response) {
+                // обрабатываем успешный ответ от сервера
+            },
+            error: function(xhr, status, error) {
+                // обрабатываем ошибку
+            }
         });
-    }
+    });
 });

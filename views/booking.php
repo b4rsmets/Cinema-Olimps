@@ -99,7 +99,7 @@ class booking
 
                                     ?>
 
-                                    <div data-seat="<?= $seat['row'] ?>-<?= $seat['place'] ?>"
+                                    <div data-seat="<?= $seat['id'] ?>"
                                          class="seat <?php echo $is_booked ? "unavailable" : "available"; ?>">
                                         <?php echo $seat['place'] ?>
                                     </div>
@@ -135,17 +135,20 @@ class booking
 
                                 </div>
                                 <div class="price-count" data-price=<?= $data['price'] ?>>
-                                    <span>Цена за один билет <?= $data['price'] ?></span>
+                                    <span>Цена за один билет <?= $data['price'] ?> ₽</span>
 
                                 </div>
                                 <div class="price-itog">
-                                    <span>Итоговая цена: 0</span>
+                                    <span>Итоговая цена: 0 ₽</span>
                                 </div>
 
                             </div>
                             <div class="btn-order">
 
-                                <input type="submit" value="Оформить заказ">
+                                <form id="order-form">
+                                    <input type="hidden" name="book" value="<?=$dataBook?>">
+                                    <input type="submit" id="btn-order" value="Оформить заказ">
+                                </form>
                             </div>
                         </div>
                     </div>
