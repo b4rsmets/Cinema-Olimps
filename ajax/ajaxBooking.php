@@ -12,9 +12,9 @@ if (is_array($_SESSION['pickedSeat']['seats'])) {
 }
 $dataBook = '';
 if (isset($_SESSION['pickedSeat']['seats']) && is_array($_SESSION['pickedSeat']['seats'])) {
-    $dataBook = implode(',', $_SESSION['pickedSeat']['seats']);
+    $dataBook = $_SESSION['pickedSeat']['seats'];
 }
-
+$_SESSION['total_price'] = $_SESSION['pickedSeat']['price'] * $count;
 ?>
     <div id="seats-count" data-book="<?=$dataBook?>">
     <span>Билетов выбрано: <span class="selected_seat"><?= $count ?></span></span>

@@ -36,4 +36,14 @@ class book
         }
         return $booking;
     }
+    function orderConfirm(){
+        $now = date('d.m.Y');
+        $ticket_number = date("His");;
+        $qrPath = $_SESSION['role']['id'] . $ticket_number;
+        $query = $this->connect->query("INSERT INTO orders (date_buy, id_seans, id_seat, id_user, ticket_number, qr) VALUES ('{$now}', {$_SESSION['seans_id']}, {$_SESSION['pickedSeat']['seats'][0]}, {$_SESSION['role']['id']}, '{$ticket_number}', '{$qrPath}')");
+        if ($this->connect->error) {
+            echo 'Ошибка: ' . mysqli_error($this->connect);
+        }
+    }
+
 }

@@ -1,3 +1,6 @@
+<?php
+$title= '404';
+?>
 <div class="notfound-container">
     <div class="big-text">
         <h1>404</h1>

@@ -11,11 +11,21 @@ class booking
         $time = date("H:i:s");
         $timeSeans = date("H:i:s", strtotime($data['time_movie']));
         $movieDate = strtotime($data['date_movie']);
-
-        if ($movieDate >= strtotime($date) && ($movieDate == strtotime($date) && $time < $timeSeans || $movieDate > strtotime($date))) {
-            $this->viewPlace($data, $seats, $booking);
+        if ($_SESSION['role']) {
+            if ($movieDate >= strtotime($date) && ($movieDate == strtotime($date) && $time < $timeSeans || $movieDate > strtotime($date))) {
+                $this->viewPlace($data, $seats, $booking);
+                $_SESSION['seans_id'] = $data['id'];
+                $_SESSION['infoSeans'] = [
+                    'title' => $data['movie_title'],
+                    'time' => $data['time_movie'],
+                    'hall' => $data['hall_id'],
+                    'date' => $data['date_movie']
+                ];
+            } else {
+                require './views/seansUnavaiable.php';
+            }
         } else {
-            require './views/seansUnavaiable.php';
+            header("location: /auth");
         }
     }
 
@@ -33,18 +43,18 @@ class booking
                 <div class="under-img-booking">
                     <div class="left-status-container">
                         <div class="status-order">
-                            <div class="activecomplete">
+                            <div class="complete dope">
                             </div>
                             <div class="line-complete">
 
                             </div>
-                            <div class="complete">
+                            <div class="oplata">
 
                             </div>
                             <div class="line-complete">
 
                             </div>
-                            <div class="complete">
+                            <div id="final" class="complete">
 
                             </div>
                         </div>
@@ -57,7 +67,7 @@ class booking
                 </div>
             </div>
             <div class="right-container-booking">
-                <div class="container-info-booking-film">
+                <div id="brone" class="container-info-booking-film">
 
                     <div class="info-booking-film">
                         <div class="title-booking-film">
@@ -72,10 +82,12 @@ class booking
                         </div>
                         <div class="time-date-booking-film">
                             <div class="time-film">
-                                <img src="../resource/images/cloak.png" alt=""> <span><?= date("G:i", strtotime($data['time_movie']))?></span>
+                                <img src="../resource/images/cloak.png" alt="">
+                                <span><?= date("G:i", strtotime($data['time_movie'])) ?></span>
                             </div>
                             <div class="date-film">
-                                <img src="../resource/images/calendar.png" alt="">  <span><?= date("F j", strtotime($data['date_movie']))?></span>
+                                <img src="../resource/images/calendar.png" alt="">
+                                <span><?= date("F j", strtotime($data['date_movie'])) ?></span>
                             </div>
                         </div>
 
@@ -89,10 +101,12 @@ class booking
                             if (is_array($seats)) {
                                 foreach ($seats as $seat) {
                                     $is_booked = false;
-                                    foreach ($booking as $book) {
-                                        if ($book['id_seat'] == $seat['id'] && $book['id_seans'] == $data["id"]) {
-                                            $is_booked = true;
-                                            break;
+                                    if (is_array($booking)) {
+                                        foreach ($booking as $book) {
+                                            if ($book['id_seat'] == $seat['id'] && $book['id_seans'] == $data["id"]) {
+                                                $is_booked = true;
+                                                break;
+                                            }
                                         }
                                     }
 
@@ -146,8 +160,8 @@ class booking
                             <div class="btn-order">
 
                                 <form id="order-form">
-                                    <input type="hidden" name="book" value="<?=$dataBook?>">
-                                    <input type="submit" id="btnorder" value="Оформить заказ">
+                                    <input type="hidden" name="book" value="<?= $dataBook ?>">
+                                    <input type="submit" id="btn-order" value="Оформить заказ">
                                 </form>
                             </div>
                         </div>

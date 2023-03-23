@@ -1,4 +1,98 @@
 $(document).ready(function () {
+    $('.container-info-booking-film').on('click', '#pay-btn', function(event){
+        event.preventDefault();
+        $("#brone").html("<div class='loader'></div>");
+        $.ajax({
+            url: '../ajax/ajaxPayment.php',
+
+            type: 'POST',
+            success: function(response) {
+                $("#brone").html(response);
+            },
+            beforeSend: function() {
+                $(".loader").show();
+            },
+            complete: function() {
+                $(".loader").hide();
+                $('#final').addClass('dope');
+            },
+            error: function(xhr, status, error) {
+                // обрабатываем ошибку
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    var selectedSeats = [];
+    var price = $(".price-count").attr('data-price');
+    $(".seat.available, .seat.pick").on("click", function () {
+        if ($(this).hasClass("available")) {
+            $(this).removeClass("available").addClass("pick");
+            selectedSeats.push($(this).attr('data-seat'));
+        } else if ($(this).hasClass("pick")) {
+            $(this).removeClass("pick").addClass("available");
+            var index = selectedSeats.indexOf($(this).attr('data-seat'));
+            if (index > -1) {
+                selectedSeats.splice(index, 1)
+            }
+        }
+        console.log(selectedSeats.lenght + " Место выбрано: " + selectedSeats.join(", "));
+        if (selectedSeats.length > 0) { // Добавляем условие проверки
+            $.ajax({
+                url: "../ajax/ajaxBooking.php",
+                type: "POST",
+                dataType: "html", // Изменяем тип данных на "html", т.к. ответ содержит HTML-разметку
+                data: {
+                    seats: selectedSeats, price: price
+                },
+                success: function (response) {
+                    $('.info-pay').html(response);
+                    // Добавляем обработчик клика на кнопку заказа
+                    $('#btn-order').click(function(e) {
+                        e.preventDefault(); // предотвращаем перезагрузку страницы
+
+                        var bookData = $('#seats-count').data('book');
+                        if (selectedSeats.length > 0) { // добавляем проверку наличия выбранных мест
+                            $("#brone").html("<div class='loader'></div>");
+                            $.ajax({
+                                url: '../ajax/ajaxOrder.php',
+
+                                type: 'POST',
+                                data: {
+                                    book: JSON.stringify(bookData),
+                                    selected_seat: selectedSeats
+                                },
+                                success: function(response) {
+                                    $("#brone").html(response);
+                                },
+                                beforeSend: function() {
+                                    $(".loader").show();
+                                },
+                                complete: function() {
+                                    $(".loader").hide();
+
+                                },
+                                error: function(xhr, status, error) {
+                                    // обрабатываем ошибку
+                                }
+
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+    // Добавляем обработчик клика на кнопку заказа вне цикла события клика на место
+    $('#btn-order').click(function(e) {
+        if (selectedSeats.length === 0) { // проверяем, что выбрано хотя бы одно место
+            e.preventDefault(); // предотвращаем отправку формы
+            console.log("Выберите место для заказа!");
+        }
+    });
+});
+$(document).ready(function () {
 
     $("#registration-form").submit(function (event) {
         event.preventDefault();
@@ -39,50 +133,6 @@ $(document).ready(function () {
         });
     });
 });
-$(document).ready(function () {
-    $('#logout-btn').click(function (event) {
-        event.preventDefault(); // предотвращаем переход по ссылке
-        $.ajax({
-            url: '/ajax/logout.php',
-            success: function (response) {
-                window.location.href = '/auth';
-            },
-            error: function (xhr, status, error) {
-                alert('Произошла ошибка при выходе');
-            }
-        });
-    });
-});
-$(document).ready(function () {
-    var selectedSeats = [];
-    var price = $(".price-count").attr('data-price');
-    $(".seat.available, .seat.pick").on("click", function () {
-        if ($(this).hasClass("available")) {
-            $(this).removeClass("available").addClass("pick");
-
-            selectedSeats.push($(this).attr('data-seat'));
-        } else if ($(this).hasClass("pick")) {
-            $(this).removeClass("pick").addClass("available");
-            var index = selectedSeats.indexOf($(this).attr('data-seat'));
-            if (index > -1) {
-                selectedSeats.splice(index, 1)
-            }
-        }
-        console.log(selectedSeats.lenght + " Место выбрано: " + selectedSeats.join(", "));
-        $.ajax({
-            url: "../ajax/ajaxBooking.php",
-            type: "POST",
-            dataType: "html", // Изменяем тип данных на "html", т.к. ответ содержит HTML-разметку
-            data: {
-                seats: selectedSeats, price: price
-            },
-            success: function (response) {
-                $('.info-pay').html(response);
-            }
-        })
-
-    })
-})
 $(document).ready(function() {
     $('.choose-date a').click(function(e) {
         e.preventDefault(); // Отменяем стандартное поведение ссылки
@@ -107,25 +157,14 @@ $(document).ready(function() {
         });
     });
 });
-$(document).ready(function() {
-    $('#btnorder').click(function(e) {
-        e.preventDefault(); // предотвращаем перезагрузку страницы
-
-        var bookData = $('#seats-count').data('book');
-        var selectedSeat = $('.selected_seat').text();
-
-        $.ajax({
-            url: '../ajax/ajaxOrder.php',
-            type: 'POST',
-            data: {
-                book: JSON.stringify(bookData),
-                selected_seat: selectedSeat
-            },
-            success: function(response) {
-            },
-            error: function(xhr, status, error) {
-                // обрабатываем ошибку
-            }
+    $(document).ready(function () {
+        $('.user-info').on('click', '#logout-btn', function(event){
+            event.preventDefault();
+            $.ajax({
+                url: '../ajax/logout.php'
+                success: function(response){
+                    window.location.href = "/afisha";
+                }
+            });
         });
     });
-});
