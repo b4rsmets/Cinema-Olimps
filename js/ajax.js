@@ -157,14 +157,17 @@ $(document).ready(function() {
         });
     });
 });
-    $(document).ready(function () {
-        $('.user-info').on('click', '#logout-btn', function(event){
-            event.preventDefault();
-            $.ajax({
-                url: '../ajax/logout.php'
-                success: function(response){
-                    window.location.href = "/afisha";
-                }
-            });
+$(document).ready(function () {
+    $('.user-info').on('click', '#logout-btn', function(event){
+        event.preventDefault();
+        $.ajax({
+            url: '../ajax/logout.php',
+            success: function(response){
+                window.location.href = "/afisha";
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
         });
     });
+});
