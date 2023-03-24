@@ -15,6 +15,6 @@ class dashboard
 
     function viewAdm()
     {
-        echo 'u Admin';
+    require_once 'admin/template/header.php';
     }
 }

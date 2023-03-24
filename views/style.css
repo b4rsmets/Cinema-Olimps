@@ -720,7 +720,7 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
     opacity: 1;
 }
 .order-user{
-    width: 424px;
+    width: 431px;
     height: 100%;
     line-height: 42px;
     display: flex;
@@ -1608,5 +1608,19 @@ h1 span {
     color: #fff;
     width: 560px;
     margin: auto;
+    opacity: 0.5;
+}
+.zero-orders{
+    display: flex;
+    width: 298px;
+    margin: auto;
+    text-align: center;
+    flex-direction: column;
+    margin-top: 112px;
+    align-items: center;
+    margin-left: 127px;
+    align-content: center;
+}
+.zero-orders>img{
     opacity: 0.5;
 }
