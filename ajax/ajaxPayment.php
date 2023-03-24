@@ -16,7 +16,7 @@ if (!file_exists($qrFolderPath)) {
 chmod($qrFolderPath, 0777);
 $timeNow = date("His");
 $qrFile = $_SESSION['role']['id'] . $timeNow ;
-$data = "Номер билета: " . $_SESSION['pickedSeat']['seats'][0] . "\n" .
+$data = "Номер билета: " . $timeNow . "\n" .
     "Фильм: " . $_SESSION['infoSeans']['title'] . "\n" .
     "Время: " . date('H:i', strtotime($_SESSION['infoSeans']['time'])) . "\n" .
     "Дата: " . date('Y.m.d', strtotime($_SESSION['infoSeans']['date'])) . "\n" .

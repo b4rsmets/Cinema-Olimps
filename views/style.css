@@ -1363,9 +1363,9 @@ Credit Card
     justify-content: space-evenly;
 }
 .time-film img, .date-film img {
-    height: 25px; /* установите желаемую высоту */
+    height: 25px; /* ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ðµ Ð¶ÐµÐ»Ð°ÐµÐ¼ÑƒÑŽ Ð²Ñ‹ÑÐ¾Ñ‚Ñƒ */
     margin-right: 10px;
-    width: 25px; /* установите желаемую ширину */
+    width: 25px; /* ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ðµ Ð¶ÐµÐ»Ð°ÐµÐ¼ÑƒÑŽ ÑˆÐ¸Ñ€Ð¸Ð½Ñƒ */
 }
 .time-film , .date-film {
     display: flex;
@@ -1381,7 +1381,7 @@ Credit Card
     width: 120px;
     height: 120px;
     animation: spin 1s linear infinite;
-    display: none; /* начально скрыт */
+    display: none; /* Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ð¾ ÑÐºÑ€Ñ‹Ñ‚ */
     position: relative;
     margin: auto;
 }
@@ -1444,7 +1444,7 @@ Credit Card
 
 .cardRight {
     width: 11.5em;
-    border-left: 0.18em dashed #fff;
+    border-left: 0.18em dashed #282828;
     height: 400px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -1623,4 +1623,17 @@ h1 span {
 }
 .zero-orders>img{
     opacity: 0.5;
+}
+.error-seats-brone {
+    display: flex;
+    width: 597px;
+    color: #fff;
+    line-height: 40px;
+    text-align: center;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+}
+.error-seats-brone>img{
+    margin-top: 30px;
 }

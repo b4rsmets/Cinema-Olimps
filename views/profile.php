@@ -6,6 +6,7 @@ use QRcode;
 
 class profile
 {
+
     function render($orders)
     {
         if (!empty($_SESSION['auth'])) {
@@ -18,6 +19,7 @@ class profile
 
     function viewProfile($orders)
     {
+        date_default_timezone_set('Asia/Barnaul');
         ?>
         <div class="profile-container">
             <div class="user-info">
@@ -44,47 +46,47 @@ class profile
             <div class="order-user">
 
                 <?
-                if (is_array($orders)){
-    foreach ($orders as $order) {
-        $date_order = strtotime($order['date_movie']);
-        $time_order = strtotime($order['time_movie']);
-        $now = strtotime(date("Y-m-d G:i:s"));
+                if (is_array($orders)) {
+                    foreach ($orders as $order) {
+                        $nowDate = date('Y-m-d');
+                        $nowTime = date("H:i:s");
+                        $time_order = date("H:i:s", strtotime($order['time_movie']));
+                        $date_order = strtotime($order['date_movie']);
 
-        if ($date_order >= $now && ($date_order > $now || ($date_order == $now && $time_order >= strtotime(date("G:i:s"))))) { ?>
+                        if ($date_order > strtotime($nowDate) || ($date_order == strtotime($nowDate) && $time_order >= $nowTime)) { ?>
 
-                                <div class="order-info">
+                            <div class="order-info">
 
-                                    <div class="image-order">
-                                        <img src="../resource/uploads/afisha/<?= $order['movie_image'] ?>" alt="">
+                                <div class="image-order">
+                                    <img src="../resource/uploads/afisha/<?= $order['movie_image'] ?>" alt="">
+                                </div>
+                                <div class="order-info-place">
+                                    <div class="ticket-order">
+                                        <span><b>Номер билета<br></b>#<?= $order['ticket_number'] ?></span>
                                     </div>
-                                    <div class="order-info-place">
-                                        <div class="ticket-order">
-                                            <span><b>Номер билета<br></b>#<?= $order['ticket_number'] ?></span>
-                                        </div>
-                                        <div class="place-order">
-                                            <span><b>Зал: </b><?= $order['hall_id'] ?></span><br>
-                                            <span><b>Ряд: </b><?= $order['row'] ?></span><br>
-                                            <span><b>Место: </b><?= $order['place'] ?></span><br>
-                                            <span><b>Дата: </b><?= date("Y.m.d", strtotime($order['date_movie'])) ?></span><br>
-                                            <span><b>Время: </b><?= date("G:i", strtotime($order['time_movie'])) ?></span>
-                                        </div>
-                                    </div>
-                                    <div class="qr-code-container">
-                                        <img src="../resource/qrcodes/bilet_<?= $order['qr'] ?>.png" alt="">
+                                    <div class="place-order">
+                                        <span><b>Зал: </b><?= $order['hall_id'] ?></span><br>
+                                        <span><b>Ряд: </b><?= $order['row'] ?></span><br>
+                                        <span><b>Место: </b><?= $order['place'] ?></span><br>
+                                        <span><b>Дата: </b><?= date("Y.m.d", strtotime($order['date_movie'])) ?></span><br>
+                                        <span><b>Время: </b><?= date("G:i", strtotime($order['time_movie'])) ?></span>
                                     </div>
                                 </div>
-            <?php $count++; ?>
-        <?php }
-    }
+                                <div class="qr-code-container">
+                                    <img src="../resource/qrcodes/bilet_<?= $order['qr'] ?>.png" alt="">
+                                </div>
+                            </div>
+                            <?php $count++; ?>
+                        <?php }
+                    }
 
                     if ($count == 0) {
                         ?>
-                       <div class="zero-orders">
-                           <img src="../resource/images/clapper.png" alt="">
-                           <h2>У вас нет купленных билетов!</h2>
-                       </div>
-                <?
-                    }
+                        <div class="zero-orders">
+                            <img src="../resource/images/clapper.png" alt="">
+                            <h2>У вас нет купленных билетов!</h2>
+                        </div>
+                    <?php }
                 }
                 ?>
 
