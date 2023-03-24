@@ -6,17 +6,17 @@ use QRcode;
 
 class profile
 {
-    function render()
+    function render($orders)
     {
         if (!empty($_SESSION['auth'])) {
-            $this->viewProfile();
+            $this->viewProfile($orders);
         } else {
             header("location: /auth");
         }
 
     }
 
-    function viewProfile()
+    function viewProfile($orders)
     {
         ?>
         <div class="profile-container">
@@ -43,49 +43,31 @@ class profile
             <div class="line-user-order"></div>
             <div class="order-user">
                 <h2>Ваши заказы:</h2>
+                <?
+                if (is_array($orders))
+                    foreach ($orders as $order) {?>
                 <div class="order-info">
+
                     <div class="image-order">
-                        <img src="../resource/uploads/afisha/avatar.jpg" alt="">
+                        <img src="../resource/uploads/afisha/<?=$order['movie_image']?>" alt="">
                     </div>
                     <div class="order-info-place">
                         <div class="ticket-order">
-                            <span><b>Номер билета<br></b>#5198410</span>
+                            <span><b>Номер билета<br></b>#<?=$order['ticket_number']?></span>
                         </div>
                         <div class="place-order">
-                            <span><b>Зал: </b>1</span><br>
-                            <span><b>Ряд: </b>4</span><br>
-                            <span><b>Место: </b>10</span><br>
-                            <span><b>Время: </b>18:30</span>
+                            <span><b>Зал: </b><?=$order['hall_id']?></span><br>
+                            <span><b>Ряд: </b><?=$order['row']?></span><br>
+                            <span><b>Место: </b><?=$order['place']?></span><br>
+                            <span><b>Время: </b><?=date("G:i", strtotime($order['time_movie']))?></span>
                         </div>
                     </div>
                     <div class="qr-code-container">
-                        <?
-                        
-
-                        ?>
+                        <img src="../resource/qrcodes/bilet_<?=$order['qr']?>.png" alt="">
                     </div>
                 </div>
-
-                <div class="order-info">
-                    <div class="image-order">
-                        <img src="../resource/uploads/afisha/cheburashka.jpg" alt="">
-                    </div>
-                    <div class="order-info-place">
-                        <div class="ticket-order">
-                            <span><b>Номер билета<br></b>#5173125</span>
-                        </div>
-                        <div class="place-order">
-                            <span><b>Зал: </b>2</span><br>
-                            <span><b>Ряд: </b>5</span><br>
-                            <span><b>Место: </b>2</span><br>
-                            <span><b>Время: </b>21:30</span>
-                        </div>
-                    </div>
-                    <div class="qr-code-container">
-
-
-                    </div>
-                </div>
+                <?
+                }?>
 
             </div>
         </div>
