@@ -21,6 +21,8 @@ else{
             <input type="text" pattern="[А-Яа-яЁё ]+" placeholder="Как вас зовут" name="full_name" title="Напишите как вас зовут на Русском языке" required>
             <label for="email"><b>Email</b></label>
             <input type="email"  placeholder="Email" name="email" required>
+            <label for="phone"><b>Телефон</b></label>
+            <input type="tel" placeholder="+7" name="phone" required>
             <label for="password"><b>Пароль</b></label>
             <input type="password" pattern=".{6,}"  placeholder="Введите пароль (минимум 6 символов)" name="password" required>
             <hr class="line-reg">

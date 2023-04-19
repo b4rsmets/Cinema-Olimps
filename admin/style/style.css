@@ -13,3 +13,142 @@ body{
     height: 100px;
     color: #fff;
 }
+.text-in-header-admin{
+    position: relative;
+    top: 20px;
+    width: 590px;
+    left: 20px;
+}
+#wrapper{
+    display: flex;
+    height: 100%;
+}
+.sidebar {
+    width: 400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    background: #282828;
+    padding: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+}
+
+.sidebar-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    margin-top: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.sidebar-button:hover {
+    transform: scale(1.1);
+}
+
+.panel {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    /* box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); */
+}
+
+.panel h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.update-role-form {
+    display: inline-block;
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0062cc;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+.img-side>img{
+    width: 30px;
+    margin-right: 16px;
+    height: 30px;
+}
+.img-side{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+}
+.container-admin-films{
+    width: 1000px;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.movie-img-admin{
+    width: 250px;
+    margin-right: 90px;
+    height: 355px;
+}
+.movie-img-admin img{
+    width: inherit;
+    height: inherit;
+}
+.card-movie-admin{
+    width: 290px;
+    height: 395px;
+    display: flex;
+    flex-direction: column;
+}
+.name-film-admin>span{
+    font-size: 19px;
+}

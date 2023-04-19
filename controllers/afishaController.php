@@ -11,7 +11,7 @@ class afishaController
         $data['films']['films'] = $indexmodel->getFilms();
         $indexView = new \views\index();
         $indexView->render($data);
-        
+
     }
 
 }

@@ -1,11 +1,17 @@
 $(document).ready(function() {
-    $('.btn-give-admin, .btn-remove-admin').click(function(evt) {
+    var $userRows = $('.user-row');
+    var $panels = $('.panel');
+    var $updateRoleForms = $('.update-role-form');
+
+    // Event delegation for admin/user buttons
+    $userRows.on('click', '.btn-give-admin, .btn-remove-admin', function(evt) {
         evt.preventDefault();
-        var userId = $(this).data('user-id');
-        var userRole = $(this).data('user-role');
+        var $this = $(this);
+        var userId = $this.data('user-id');
+        var userRole = $this.data('user-role');
         var newRole = (userRole === 'user') ? 'admin' : 'user';
         var newRoleText = (newRole === 'admin') ? 'Админ' : 'Пользователь';
-        var $userRow = $(this).closest('.user-row');
+        var $userRow = $this.closest('.user-row');
 
         $.ajax({
             type: "POST",
@@ -19,10 +25,16 @@ $(document).ready(function() {
                 var $btn = $userRow.find('.btn-give-admin, .btn-remove-admin');
                 var btnText = (newRole === 'admin') ? 'Забрать права' : 'Дать права Администратора';
                 var btnClass = (newRole === 'admin') ? 'btn-danger' : 'btn-success';
-                $btn.text(btnText);
-                $btn.removeClass('btn-success btn-danger').addClass(btnClass);
+                $btn.text(btnText).toggleClass('btn-success btn-danger ' + btnClass);
                 $btn.data('user-role', newRole);
             }
         });
+    });
+
+    // Event delegation for sidebar buttons
+    $('body').on('click', '.sidebar-button', function() {
+        var panelId = $(this).data('panel-id');
+        $panels.hide();
+        $('#' + panelId).show();
     });
 });

@@ -21,13 +21,16 @@ class reg
         }
     }
 
-    function addUser($login, $password, $email, $full_name)
+    function addUser($login, $password, $email, $full_name, $phone)
     {
-        $query = $this->connect->query("INSERT INTO users (login, email, full_name, password, role) VALUES ('$login', '$email', '$full_name', '$password', 'user')");
-        if ($this->connect->error) {
-            echo 'Ошибка';
+        $sql = "INSERT INTO users (login, email, full_name, password, role, phone) VALUES ('$login', '$email', '$full_name', '$password', 'user', '$phone')";
+        if ($this->connect->query($sql)) {
+            return true;
         } else {
-
+            echo "Error: " . $sql . "<br>" . $this->connect->error;
+            return false;
         }
     }
+    
+    
 }

@@ -35,6 +35,7 @@ if (isset($_SESSION['user'])) {
 <body>
 <div class="wrapper-admin">
     <header class="header-admin">
-        <h2>Админ панель кинотеатра Олимп</h2>
+
+        <h2 class="text-in-header-admin">Админ панель кинотеатра Олимп</h2>
     </header>
 </div>

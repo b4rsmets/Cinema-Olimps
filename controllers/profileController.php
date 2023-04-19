@@ -6,10 +6,9 @@ class profileController
 {
     function __construct()
     {
-            $profilemodel = new \models\profile();
-            $orders = $profilemodel->getOrderSeans($orders);
-            $profileView = new \views\profile();
-            $profileView->render($orders);
-        }
+        $profilemodel = new \models\profile();
+        $orders = $profilemodel->getOrderSeans($orders);
+        $profileView = new \views\profile();
+        $profileView->render($orders);
+    }
 }
-
