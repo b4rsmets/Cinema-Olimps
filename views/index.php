@@ -41,6 +41,8 @@ class index
     function viewFilms($data)
     {
         $films = $data['films'];
+        $currentDate = date('Y-m-d'); // Текущая дата
+
         ?>
         <div class="container-catalog">
             <?php

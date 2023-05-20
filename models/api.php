@@ -6,7 +6,7 @@ class api
 {
     function apiMovie()
     {
-        $idKp = 4370148;
+        $idKp = 566;
         $url = file_get_contents("https://api.kinopoisk.dev/v1/movie/$idKp?token=0QXFJ1B-0GR4ZVZ-P3A4H88-7RP9J1W");
         $content = json_decode($url, true);
 
