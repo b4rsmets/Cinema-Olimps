@@ -136,11 +136,11 @@ $(document).ready(function () {
 $(document).ready(function() {
     $('.choose-date a').click(function(e) {
         e.preventDefault(); // Отменяем стандартное поведение ссылки
-        $('.choose-date a').removeClass('active'); // Удаляем класс active у всех ссылок
-        $(this).addClass('active'); // Добавляем класс active к выбранной ссылке
+        $('.choose-date a').removeClass('choosed'); // Удаляем класс active у всех ссылок
+        $(this).addClass('choosed'); // Добавляем класс active к выбранной ссылке
         var href = $(this).attr('href'); // Получаем ссылку, на которую кликнули
         var container = $('.container-catalog'); // Ищем элемент с классом container-catalog
-        var container2 = $('.container-seans'); // Ищем элемент с классом container-seans
+        var container2 = $('.container-film'); // Ищем элемент с классом container-seans
         if (container.length == 0) {
             container = $('.container-film'); // Если не нашли элемент с классом container-catalog, то ищем элемент с классом container-film
         }
@@ -150,9 +150,9 @@ $(document).ready(function() {
         $.ajax({
             url: href,
             success: function(data) {
-                var content = $(data).find('.container-catalog, .container-seans'); // Получаем содержимое нужных элементов
+                var content = $(data).find('.container-catalog, .container-film'); // Получаем содержимое нужных элементов
                 container.html(content.filter('.container-catalog').html()); // Обновляем содержимое элемента с классом container-catalog на странице
-                container2.html(content.filter('.container-seans').html()); // Обновляем содержимое элемента с классом container-seans на странице
+                container2.html(content.filter('.container-film').html()); // Обновляем содержимое элемента с классом container-seans на странице
             }
         });
     });

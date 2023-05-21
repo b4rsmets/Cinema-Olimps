@@ -6,7 +6,8 @@ class film
 {
 
 
-    function render($film) {
+    function render($film)
+    {
         if (!$film['films'] == null) {
             $this->viewDates();
             $this->viewFilm($film);
@@ -31,11 +32,19 @@ class film
                 <div class="poster-film">
                     <img src="./resource/uploads/afisha/<?= $film['movie_image'] ?>" alt="">
                 </div>
-                <div class="restriction-film">
+                <?
+                if (!$film['movie_restriction'] == null) {
+                    ?>
+                    <div class="restriction-film">
                     <span>
                         <?= $film['movie_restriction'] ?>+
                     </span>
-                </div>
+                    </div>
+                    <?
+                } else {
+
+                }
+                ?>
                 <div class="title-film">
                     <h2>
                         <?= $film['movie_title'] ?>
@@ -57,7 +66,7 @@ class film
                 <div class="duration-film">
                     <span class="podtext">Продолжительность</span>
                     <p>
-                        <?= date("g \ч. i \мин.", strtotime($film['movie_duration'])); ?>
+                        <?= $film['movie_duration']; ?> Мин.
                     </p>
                 </div>
             </div>
@@ -80,9 +89,14 @@ class film
                     </span>
                 </div>
                 <div class="trailer">
-                    <iframe width="700" height="400" src="<?= $film['movie_trailer'] ?>"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
+
+
+                        <iframe width="700" height="400" src="<?= $film['movie_trailer'] ?>"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
+
+
+               
                 </div>
             </div>
         </div>
@@ -107,9 +121,9 @@ class film
                         strtotime($one_seans['time_movie']) >= $now
                     ) {
                         $emply = false;
-                        echo '<div class="block-time">';
+                        echo "<a href='/booking?id=". $one_seans['movie_id'] ."&seans=". $one_seans['id'] ."'><div class='block-time'>";
                         echo '<h2>' . date("G:i", strtotime($one_seans['time_movie'])) . '<span class="price-seans">' . $one_seans['price'] . ' ₽</span></h2>';
-                        echo '</div>';
+                        echo '</div></a>';
                     }
                 } else {
                     if (
@@ -117,9 +131,9 @@ class film
                         $one_seans['date_movie'] == $selectedDate
                     ) {
                         $emply = false;
-                        echo '<div class="block-time">';
+                        echo "<a href='/booking?id=". $one_seans['movie_id'] ."&seans=". $one_seans['id'] ."'><div class='block-time'>";
                         echo '<h2>' . date("G:i", strtotime($one_seans['time_movie'])) . '<span class="price-seans">' . $one_seans['price'] . ' ₽</span></h2>';
-                        echo '</div>';
+                        echo '</div></a>';
                     }
                 }
             }

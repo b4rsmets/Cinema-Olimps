@@ -9,6 +9,7 @@ class afishaController
         $data['slider'] = $indexmodel->getSliders();
         $data['films']['seans'] = $indexmodel->getSeans();
         $data['films']['films'] = $indexmodel->getFilms();
+        $data['news'] = $indexmodel->getNews();
         $indexView = new \views\index();
         $indexView->render($data);
 

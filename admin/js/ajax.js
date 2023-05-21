@@ -59,7 +59,7 @@ $(document).ready(function () {
 $(document).ready(function() {
     $('#addMovieForm').submit(function(event) {
         event.preventDefault(); // Предотвращаем отправку формы по умолчанию
-        var container = $('#container-admin-films');
+        var container2 = $('.content'); // Ищем элемент с классом container-seans
         var idKp = $('input[name="id_kp"]').val(); // Получаем значение ID Кинопоиска из поля ввода
 
         // Отправка AJAX-запроса на сервер
@@ -70,8 +70,8 @@ $(document).ready(function() {
                 id_kp: idKp
             },
             success: function(response) {
-                var content = $(response).find('#content').html(); // Получаем содержимое нужных элементов
-                container.html(content); // Обновляем содержимое контейнера
+                var content = $(response).find('#container-admin-films').html(); // Получаем содержимое элемента с классом .container-film из ответа сервера
+                container2.html(content); // Заменяем содержимое контейнера .content на полученное содержимое .container-film
                 console.log(response); // Ответ от сервера
                 $('#exampleModal').modal('hide'); // Закрытие модального окна после успешного добавления фильма
 

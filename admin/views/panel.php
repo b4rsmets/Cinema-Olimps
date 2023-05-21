@@ -21,15 +21,6 @@ class Panel
             'password' => ''
         ]);
     }
-    public function addMovieToDatabase($movieData)
-    {
-        $this->database->insert('movies', [
-            'id' => $movieData['id'],
-            'movie_title' => $movieData['name'],
-            'movie_image' => $movieData['poster'],
-            'movie_restriction' => $movieData['age']
-        ]);
-    }
     public function render()
     {
         if (!isset($_SESSION['role']['role']) || $_SESSION['role']['role'] !== 'admin') {
@@ -75,6 +66,19 @@ class Panel
                         <li>
                             <button class="sidebar-button" data-panel-id="users">Пользователи</button>
                         </li>
+
+                    </div>
+                    <div class="img-side"><img src="../admin/source/img/news.png" alt="">
+                        <li>
+                            <button class="sidebar-button" data-panel-id="news">Новости</button>
+                        </li>
+
+                    </div>
+                    <div class="img-side"><img src="../admin/source/img/orders.png" alt="">
+                        <li>
+                            <button class="sidebar-button" data-panel-id="orders">Заказы</button>
+                        </li>
+
                     </div>
                 </ul>
                 <div class="info-panel-user">
@@ -135,7 +139,7 @@ class Panel
                                 <div class="name-film-admin"><span><?= $film['movie_title'] ?></span></div>
                                 <button type="button" class="btn btn-danger delete-btn" data-id="<?= $film['id'] ?>">Удалить</button>
                                 <button type="button" class="btn btn-success">Редактировать</button>
-                            </div>
+                                </div>
                         <?php } ?>
                     </div>
                 </div>

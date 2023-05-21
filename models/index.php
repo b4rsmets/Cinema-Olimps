@@ -52,4 +52,14 @@ class index
         }
         return $film;
     }
+    function getNews(){
+        $query = $this->connect->query('SELECT * FROM news ORDER BY news_date DESC
+LIMIT 3');
+        if ($query->num_rows) {
+            while ($row = $query->fetch_assoc()) {
+                $news[] = $row;
+            }
+        }
+        return $news;
+    }
 }

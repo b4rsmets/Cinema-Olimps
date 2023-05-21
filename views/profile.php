@@ -34,7 +34,7 @@ class profile
                 <?
                 if (!empty($_SESSION['role']['role'] == 'admin')) {
                     ?>
-                    <span>Вы админ</span>
+                    <a href="/panel">Перейти в панель администратора</a>
                     <?
                 }
                 ?>

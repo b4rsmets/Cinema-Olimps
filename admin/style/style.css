@@ -10,7 +10,7 @@ body{
 .header-admin{
     background-color: #282828;
     width: 100%;
-    height: 100px;
+    height: 159px;
     color: #fff;
 }
 .text-in-header-admin{
@@ -22,10 +22,12 @@ body{
 #wrapper{
     display: flex;
     height: 100%;
+    flex-wrap: nowrap;
+    flex-direction: row;
 }
 .sidebar {
     width: 400px;
-    height: 100%;
+    height: 137%;
     /* max-height: 840px; */
     /* position: fixed; */
     display: flex;
@@ -65,6 +67,7 @@ body{
     padding: 20px;
     background: #fff;
     border-radius: 5px;
+    height: 100%;
     /* box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); */
 }
 
@@ -134,9 +137,11 @@ body{
 .container-admin-films{
     width: 1467px;
     height: 100%;
+    /* min-height: 199px; */
     display: flex;
     margin-top: 50px;
     flex-wrap: wrap;
+    flex-direction: row;
 }
 .movie-img-admin{
     width: 250px;
@@ -149,7 +154,7 @@ body{
 }
 .card-movie-admin{
     width: 290px;
-    height: 395px;
+    height: 509px;
     display: flex;
     flex-direction: column;
 }
@@ -159,6 +164,9 @@ body{
 .info-panel-user{
     width: 246px;
     display: flex;
+    bottom: 15px;
+    position: fixed;
+    float: inline-end;
     height: 124px;
     flex-direction: column;
 }
@@ -175,10 +183,15 @@ body{
 }
 #error-message{
     width: 291px;
-    position: fixed;
-    top: 113px;
+    height: 50px;
+    position: absolute;
+    top: 179px;
 }
 .card-movie-admin>button{
     width: 250px;
     margin-bottom: 10px;
+}
+.header-admin>a{
+    margin-top: 36px;
+    margin-left: 18px;
 }

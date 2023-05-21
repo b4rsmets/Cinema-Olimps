@@ -1,4 +1,5 @@
 <?php
+
 namespace views;
 
 class index
@@ -12,11 +13,16 @@ class index
         }
         $this->viewDates();
         $this->viewFilms($data['films']);
+        $this->viewMap();
+        $this->viewNews($data['news']);
 
     }
+
     function viewSlider($sliders)
     {
         ?>
+
+
         <div id="slider">
             <?php
             if (is_array($sliders))
@@ -30,18 +36,19 @@ class index
             <div id="slide-indicators">
             </div>
         </div>
-    <?
+        <?
     }
+
     function viewDates()
     {
 
         require_once './views/date.php';
 
     }
+
     function viewFilms($data)
     {
         $films = $data['films'];
-        $currentDate = date('Y-m-d'); // Текущая дата
 
         ?>
         <div class="container-catalog">
@@ -65,9 +72,9 @@ class index
                             </a>
                             <div class="info-card">
                                 <span>
-                                    <?= $film['movie_genre']; ?>
-                                </span> - <br><span>
-                                    <?= date("g \ч. i \мин.", strtotime($film['movie_duration'])); ?>
+                                    Жанр: <?= $film['movie_genre']; ?>
+                                </span> <br><span>
+                                    <?= $film['movie_duration']; ?> Мин.
                                 </span>
                             </div>
                             <div class="raspes-card">
@@ -91,8 +98,9 @@ class index
             }
             ?>
         </div>
-    <?
+        <?
     }
+
     function viewSeans($seanses, $film)
     {
         ?>
@@ -111,7 +119,7 @@ class index
                         strtotime($one_seans['time_movie']) >= $now
                     ) {
                         $emply = false;
-                        echo "<a href='/booking?id=". $one_seans['movie_id'] ."&seans=". $one_seans['id'] ."'><div class='block-time'>";
+                        echo "<a href='/booking?id=" . $one_seans['movie_id'] . "&seans=" . $one_seans['id'] . "'><div class='block-time'>";
                         echo '<h2>' . date("G:i", strtotime($one_seans['time_movie'])) . '<span class="price-seans">' . $one_seans['price'] . ' ₽</span></h2>';
                         echo '</div></a>';
                     }
@@ -121,7 +129,7 @@ class index
                         $one_seans['date_movie'] == $selectedDate
                     ) {
                         $emply = false;
-                        echo "<a href='/booking?id=". $one_seans['movie_id'] ."&seans=". $one_seans['id'] ."'><div class='block-time'>";
+                        echo "<a href='/booking?id=" . $one_seans['movie_id'] . "&seans=" . $one_seans['id'] . "'><div class='block-time'>";
                         echo '<h2>' . date("G:i", strtotime($one_seans['time_movie'])) . '<span class="price-seans">' . $one_seans['price'] . ' ₽</span></h2>';
                         echo '</div></a>';
                     }
@@ -135,7 +143,44 @@ class index
         }
         ?>
 
-    <?
+        <?
     }
+
+    function viewMap()
+    {
+
+        require_once './views/map.php';
+    }
+
+    function viewNews($news)
+    {
+        ?>
+        <div class="news-container">
+            <h1>Новости</h1>
+            <?php
+            if (is_array($news)) {
+                foreach ($news as $new) {
+                    ?>
+                    <div class="new">
+                        <div class="title-new">
+                            <?=$new['news_title']; ?>
+                        </div>
+                        <img class="news-image" src="./resource/uploads/news/<?=$new['news_image']; ?>" alt="News Image">
+                        <div class="news-date">
+                            <?=$new['news_description']; ?>
+
+                        </div>
+                        <div class="news-description">
+                            <?=$new['news_date']; ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
+        </div>
+        <?
+    }
+
 
 }

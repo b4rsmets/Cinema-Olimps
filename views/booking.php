@@ -77,7 +77,7 @@ class booking
                             </div>
                             <div class="duration-booking-film">
                                 <h3>Длительность: </h3>
-                                <span><?= date("g \ч. i \мин.", strtotime($data['movie_duration'])); ?></span>
+                                <span>  <?=$data['movie_duration']; ?> мин.</span>
                             </div>
                         </div>
                         <div class="time-date-booking-film">

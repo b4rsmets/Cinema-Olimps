@@ -13,7 +13,7 @@ $days = array(
 ?>
 <div class="date-container"> 
     <div class="choose-date"> 
-        <a id="today" href="<?= $href . date('Y-m-d') ?>" class="<?php if (date('Y-m-d') == date('Y-m-d', strtotime($date))) { echo 'active'; } ?>">Сегодня</a> 
+        <a id="today" href="<?= $href . date('Y-m-d') ?>" class="<?php if (date('Y-m-d') == date('Y-m-d', strtotime($date))) { echo 'choosed'; } ?>">Сегодня</a>
         <a id="tomorrow" href="<?= $href . date('Y-m-d', strtotime('+1 day')) ?>" class="<?php if (date('Y-m-d', strtotime('+1 day')) == date('Y-m-d', strtotime($date))) { echo 'active'; } ?>">Завтра</a> 
         <a id="day2" href="<?= $href . date('Y-m-d', strtotime('+2 day')) ?>" class="<?php if (date('Y-m-d', strtotime('+2 day')) == date('Y-m-d', strtotime($date))) { echo 'active'; } ?>"><?php echo $days[(date('w', strtotime('+2 day')))]; ?></a> 
         <a id="day3" href="<?= $href . date('Y-m-d', strtotime('+3 day')) ?>" class="<?php if (date('Y-m-d', strtotime('+3 day')) == date('Y-m-d', strtotime($date))) { echo 'active'; } ?>"><?php echo $days[(date('w', strtotime('+3 day')))]; ?></a> 

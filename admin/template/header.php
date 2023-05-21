@@ -37,5 +37,7 @@ if (isset($_SESSION['user'])) {
     <header class="header-admin">
 
         <h2 class="text-in-header-admin">Админ панель кинотеатра Олимп</h2>
+
+        <a class="btn btn-primary" href="/afisha" role="button">Вернуться на сайт</a>
     </header>
 </div>
