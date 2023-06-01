@@ -36,8 +36,28 @@ class Panel
     {
         require_once 'admin/template/header.php';
         $users = $this->database->select('users', ['id', 'login', 'role']);
+        $orders = $this->database->select('orders', [
+            '[>]users' => ['id_user' => 'id'],
+            '[>]seans' => ['id_seans' => 'id'],
+            '[>]seats' => ['id_seat' => 'id'],
+            '[>]movies' => ['seans.movie_id' => 'id']
+        ], [
+            'orders.id',
+            'orders.ticket_number',
+            'orders.qr',
+            'seats.row',
+            'seats.place',
+            'users.full_name(full_name)',
+            'users.phone(phone)',
+            'users.email(email)',
+            'seans.hall_id(hall_id)',
+            'seans.date_movie(date_movie)',
+            'seans.time_movie(time_movie)',
+            'movies.movie_title(movie_title)',
+            'movies.movie_image(movie_image)'
+        ]);
+
         $news = $this->database->select('news', ['id', 'news_image', 'news_title', 'news_date', 'news_description']);
-        $orders = $this->database->select('orders', ['id', 'date_buy', 'id_seans', 'id_user', 'ticket_number']);
         $films = $this->database->select('movies', ['id', 'movie_title', 'movie_image', 'movie_restriction']);
         $sessions = $this->database->select('seans', [
             '[>]movies' => ['movie_id' => 'id']
@@ -145,7 +165,8 @@ class Panel
                                 <button type="button" class="btn btn-danger delete-btn" data-id="<?= $film['id'] ?>">
                                     Удалить
                                 </button>
-                                <button type="button" class="btn btn-primary edit-movie-btn" data-toggle="modal" data-target="#editMovieModal" data-movie-id="<?= $film['id'] ?>">
+                                <button type="button" class="btn btn-primary edit-movie-btn" data-toggle="modal"
+                                        data-target="#editMovieModal" data-movie-id="<?= $film['id'] ?>">
                                     Редактировать фильм
                                 </button>
 
@@ -166,49 +187,60 @@ class Panel
                                                 <form enctype="multipart/form-data" method="post">
                                                     <div class="form-group">
                                                         <label for="movie_title">Название фильма</label>
-                                                        <input type="text" class="form-control" name="movieTitle" id="movie_title" placeholder="Введите название фильма">
+                                                        <input type="text" class="form-control" name="movieTitle"
+                                                               id="movie_title" placeholder="Введите название фильма">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="movie_restriction">Ограничение по возрасту</label>
-                                                        <input type="text" class="form-control" name="movieRestriction" id="movie_restriction" placeholder="Введите ограничение по возрасту">
+                                                        <input type="text" class="form-control" name="movieRestriction"
+                                                               id="movie_restriction"
+                                                               placeholder="Введите ограничение по возрасту">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="movie_image">Изображение фильма</label>
-                                                        <input type="file" class="form-control-file" name="movieImage" id="movie_image">
+                                                        <input type="file" class="form-control-file" name="movieImage"
+                                                               id="movie_image">
                                                     </div>
                                                 </form>
-                                                    <div class="form-group">
-                                                        <label for="movie_genre">Жанр фильма</label>
-                                                        <input type="text" class="form-control" name="movie_genre" id="movie_genre"
-                                                               placeholder="Введите жанр фильма">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="movie_description">Описание фильма</label>
-                                                        <textarea class="form-control" name="movie_description" id="movie_description" rows="3"
-                                                                  placeholder="Введите описание фильма"></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="movie_duration">Продолжительность фильма</label>
-                                                        <input type="text" class="form-control" name="movie_duration" id="movie_duration"
-                                                               placeholder="Введите продолжительность фильма">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="movie_country">Страна производства</label>
-                                                        <input type="text" class="form-control" name="movie_country" id="movie_country"
-                                                               placeholder="Введите страну производства">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="movie_trailer">Ссылка на трейлер</label>
-                                                        <input type="text" class="form-control" name="movie_trailer" id="movie_trailer"
-                                                               placeholder="Введите ссылку на трейлер">
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label for="movie_genre">Жанр фильма</label>
+                                                    <input type="text" class="form-control" name="movie_genre"
+                                                           id="movie_genre"
+                                                           placeholder="Введите жанр фильма">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="movie_description">Описание фильма</label>
+                                                    <textarea class="form-control" name="movie_description"
+                                                              id="movie_description" rows="3"
+                                                              placeholder="Введите описание фильма"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="movie_duration">Продолжительность фильма</label>
+                                                    <input type="text" class="form-control" name="movie_duration"
+                                                           id="movie_duration"
+                                                           placeholder="Введите продолжительность фильма">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="movie_country">Страна производства</label>
+                                                    <input type="text" class="form-control" name="movie_country"
+                                                           id="movie_country"
+                                                           placeholder="Введите страну производства">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="movie_trailer">Ссылка на трейлер</label>
+                                                    <input type="text" class="form-control" name="movie_trailer"
+                                                           id="movie_trailer"
+                                                           placeholder="Введите ссылку на трейлер">
+                                                </div>
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                                     Закрыть
                                                 </button>
-                                                <button type="button" id="save_changes" data-movie-id="<?= $film['id'] ?>" class="btn btn-primary">Сохранить изменения
+                                                <button type="button" id="save_changes"
+                                                        data-movie-id="<?= $film['id'] ?>" class="btn btn-primary">
+                                                    Сохранить изменения
                                                 </button>
                                             </div>
                                         </div>
@@ -264,9 +296,57 @@ class Panel
                 </div>
                 <div id="orders" class="panel" style="display:none;">
                     <h2>Заказы</h2>
-                    <?php foreach ($orders as $order) { ?>
-                        <div><?php print_r($order); ?></div>
-                    <?php } ?>
+
+                    <div class="container-orders-admin">
+                        <?
+                        foreach ($orders as $order) {
+                            ?>
+                            <div class="card-order-admin">
+                                <div class="small-info">
+                                    <span>Номер билета: <?= $order['ticket_number'] ?></span> <br>
+                                    <span>Имя покупателя: <?= $order['full_name'] ?></span>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#order-modal-<?= $order['ticket_number'] ?>">
+                                        Посмотреть полную информацию
+                                    </button>
+
+                                    <div class="modal fade" id="order-modal-<?= $order['ticket_number'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Информация о
+                                                        заказе <?= $order['ticket_number'] ?></h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <span>Номер билета: <?= $order['ticket_number'] ?></span> <br>
+                                                    <span>Имя покупателя: <?= $order['full_name'] ?></span> <br>
+                                                    <span>Телефон: <?= $order['phone'] ?></span> <br>
+                                                    <span>Почта: <?= $order['email'] ?></span> <br>
+                                                    <span>Дата показа: <?= $order['date_movie'] ?></span> <br>
+                                                    <span>Время показа: <?= $order['time_movie'] ?></span> <br>
+                                                    <span>Фильм: <?= $order['movie_title'] ?></span> <br>
+                                                    <img class="fix-image" src="../../resource/qrcodes/bilet_<?= $order['qr'] ?>.png" alt="Картинка">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Закрыть
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <?
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>

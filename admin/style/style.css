@@ -195,3 +195,17 @@ body{
     margin-top: 36px;
     margin-left: 18px;
 }
+.container-orders-admin{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.card-order-admin{
+    width: 250px;
+    height: 120px;
+    margin-left: 40px;
+}
+.fix-image{
+    width: 200px;
+    height: 193px;
+}
