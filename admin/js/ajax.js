@@ -257,7 +257,7 @@ $(document).on('click', '.delete-order', function () {
         data: {orderId: orderId},
         success: function (response) {
             var errorMessage = 'Заказ удален';
-
+            $('#exampleModal').modal('hide');
             $('#error-message')
                 .removeClass()
                 .addClass('alert alert-success')
@@ -271,7 +271,7 @@ $(document).on('click', '.delete-order', function () {
             $('.card-order-admin[data-order-id="' + orderId + '"]').remove();
 
             // Закрытие модального окна
-            $('.modal fade show').modal('hide');
+
         },
         error: function (xhr, status, error) {
             var errorMessage = 'Ошибка с удалением';

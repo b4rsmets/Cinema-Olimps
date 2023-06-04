@@ -49,56 +49,82 @@ class index
     function viewFilms($data)
     {
         $films = $data['films'];
+        $hasFilms = false; // Переменная для отслеживания наличия фильмов
 
         ?>
         <div class="container-catalog">
             <?php
-            if (is_array($films))
+            if (is_array($films)) {
                 foreach ($films as $film) {
-                    ?>
+                    // Проверяем, есть ли сеансы для данного фильма на текущую дату
+                    $seanses = $data['seans'];
+                    $id_film = $film['id'];
+                    $selectedDate = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
+                    $now = strtotime(date('Y-m-d H:i:s'));
+                    $hasSeans = false;
 
-                    <div data-aos="zoom-in" class="card">
-                        <div class="image-card">
-                            <img src="./resource/uploads/afisha/<?= $film['movie_image'] ?>" alt="">
-                        </div>
-                        <div class="information">
-                            <a href="film?id=<?= $film['id'] ?>">
-                                <div class="title-card">
+                    foreach ($seanses as $seans) {
+                        if (
+                            $seans['movie_id'] == $id_film &&
+                            $seans['date_movie'] == $selectedDate &&
+                            strtotime($seans['time_movie']) >= $now
+                        ) {
+                            $hasSeans = true;
+                            $hasFilms = true; // Устанавливаем флаг, что есть фильмы
+                            break;
+                        }
+                    }
 
-                                    <h2>
-                                        <?= $film['movie_title']; ?>
-                                    </h2>
-                                </div>
-                            </a>
-                            <div class="info-card">
+                    // Если есть сеансы, выводим фильм
+                    if ($hasSeans) {
+                        ?>
+                        <div data-aos="zoom-in" class="card">
+                            <div class="image-card">
+                                <img src="./resource/uploads/afisha/<?= $film['movie_image'] ?>" alt="">
+                            </div>
+                            <div class="information">
+                                <a href="film?id=<?= $film['id'] ?>">
+                                    <div class="title-card">
+                                        <h2>
+                                            <?= $film['movie_title']; ?>
+                                        </h2>
+                                    </div>
+                                </a>
+                                <div class="info-card">
                                 <span>
                                     Жанр: <?= $film['movie_genre']; ?>
                                 </span> <br><span>
                                     <?= $film['movie_duration']; ?> Мин.
                                 </span>
-                            </div>
-                            <div class="raspes-card">
-                                <h3>Сеансы 2D</h3>
-                                <div class="container-times">
-
-                                    <?php
-
-                                    $this->viewSeans($data['seans'], $film['id']);
-                                    ?>
-
+                                </div>
+                                <div class="raspes-card">
+                                    <h3>Сеансы 2D</h3>
+                                    <div class="container-times">
+                                        <?php
+                                        $this->viewSeans($seanses, $film['id']);
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                    <?php
+                        <?php
+                    }
                 }
-            if (empty($films)) {
-                echo 'Пока что нет фильмов в прокате';
+            }
+
+            // Если нет фильмов, выводим сообщение
+            if (!$hasFilms) {?>
+
+               <div class="message-films">
+                   <img src="../resource/images/message.png" alt="">
+                   <h1>Пока что нет фильмов в прокате</h1>
+                   <span>Выберите другую дату либо уточните у оператора</span>
+               </div>
+                <?
             }
             ?>
         </div>
-        <?
+        <?php
     }
 
     function viewSeans($seanses, $film)

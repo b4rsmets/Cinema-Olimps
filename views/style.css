@@ -1975,3 +1975,24 @@ h1 span {
     position: relative;
     left: 67px;
 }
+.message-films{
+    width: 100%;
+    height: 623px;
+    /* margin-bottom: 50px; */
+    margin: auto;
+    display: flex;
+    margin-top: -97px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.message-films>h1,span{
+    text-align: center;
+}
+.message-films>h1{
+    font-size: 52px;
+}
+.message-films>span{
+    opacity: 0.8;
+    color: gray;
+}
