@@ -116,6 +116,11 @@ class Panel
                         </li>
 
                     </div>
+                    <div class="img-side"><img src="../admin/source/img/report.png" alt="">
+                        <li>
+                            <button class="sidebar-button" data-panel-id="report">Отчет</button>
+                        </li>
+                    </div>
                 </ul>
                 <div class="info-panel-user">
                     <span><?= $_SESSION['role']['full_name']; ?>  (<?= $_SESSION['role']['role']; ?>)</span>
@@ -482,7 +487,38 @@ class Panel
                         </script>
                     </div>
                 </div>
+                <div id="report" class="panel" style="display:none;">
+                    <h2>Отчет</h2>
+                    <?
+                    $spreadsheet = new Spreadsheet();
+                    $sheet = $spreadsheet->getActiveSheet();
 
+                    // Установка заголовков столбцов
+                    $sheet->setCellValue('A1', 'Дата');
+                    $sheet->setCellValue('B1', 'Количество проданных билетов');
+
+                    // Запрос для получения количества проданных билетов за сегодня
+                    $ticketCount = $this->database->count('orders', [
+                        'DATE(created_at)' => $currentDate
+                    ]);
+
+                    // Запись данных в ячейки
+                    $sheet->setCellValue('A2', $currentDate);
+                    $sheet->setCellValue('B2', $ticketCount);
+
+                    // Создание объекта Writer и сохранение файла
+                    $writer = new Xlsx($spreadsheet);
+                    $filePath = '/path/to/save/report.xlsx'; // Укажите путь, по которому будет сохранен отчет
+                    $writer->save($filePath);
+
+                    // Вывод ссылки на скачивание файла отчета
+                    echo '<div id="report" class="panel">';
+                    echo '<h2>Отчет</h2>';
+                    echo '<p>Количество проданных билетов за сегодня: ' . $ticketCount . '</p>';
+                    echo '<a href="' . $filePath . '">Скачать отчет в формате Excel</a>';
+                    echo '</div>';
+                  ?>
+                </div>
 
 
             </div>
