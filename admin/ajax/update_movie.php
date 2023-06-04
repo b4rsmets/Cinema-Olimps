@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once '../template/jsconnect.php';
 
@@ -13,7 +14,7 @@ $database = new Medoo([
 ]);
 
 
-$movieId = $_POST['movieId'];
+$movieId = $_SESSION['movie_id'];
 
 $movieTitle = $_POST['movieTitle'];
 $movieRestriction = $_POST['movieRestriction'];
@@ -69,3 +70,4 @@ $response = [
 ];
 
 echo json_encode($response);
+unset($_SESSION['movie_id']);

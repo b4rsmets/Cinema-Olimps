@@ -201,11 +201,18 @@ body{
     display: flex;
 }
 .card-order-admin{
-    width: 250px;
+    width: 356px;
     height: 120px;
     margin-left: 40px;
 }
 .fix-image{
     width: 200px;
     height: 193px;
+}
+.danger{
+    background-color: red;
+    color: white;
+    width: 250px;
+    position: absolute;
+    text-align: center;
 }

@@ -9,10 +9,12 @@ use Medoo\Medoo;
 
 class Panel
 {
+
     private $database;
 
     public function __construct()
     {
+        session_start();
         $this->database = new Medoo([
             'database_type' => 'mysql',
             'database_name' => 'cinemaolimp',
@@ -58,7 +60,7 @@ class Panel
         ]);
 
         $news = $this->database->select('news', ['id', 'news_image', 'news_title', 'news_date', 'news_description']);
-        $films = $this->database->select('movies', ['id', 'movie_title', 'movie_image', 'movie_restriction']);
+        $films = $this->database->select('movies', ['id', 'movie_title', 'movie_image', 'movie_restriction', 'movie_image', 'movie_genre', 'movie_description', 'movie_duration', 'movie_country', 'movie_trailer']);
         $sessions = $this->database->select('seans', [
             '[>]movies' => ['movie_id' => 'id']
         ], [
@@ -159,6 +161,20 @@ class Panel
 
                         <?php foreach ($films as $film) { ?>
                             <div class="card-movie-admin">
+                                <?php
+                                if (
+                                    $film['movie_title'] == null ||
+                                    $film['movie_restriction'] == null ||
+                                    $film['movie_image'] == null ||
+                                    $film['movie_genre'] == null ||
+                                    $film['movie_description'] == null ||
+                                    $film['movie_duration'] == null ||
+                                    $film['movie_country'] == null ||
+                                    $film['movie_trailer'] == null
+                                ) {
+                                    echo '<div class="danger">Некоторые поля пустые</div>';
+                                }
+                                ?>
                                 <div class="movie-img-admin"><img
                                             src="../resource/uploads/afisha/<?= $film['movie_image'] ?>" alt=""></div>
                                 <div class="name-film-admin"><span><?= $film['movie_title'] ?></span></div>
@@ -201,7 +217,6 @@ class Panel
                                                         <input type="file" class="form-control-file" name="movieImage"
                                                                id="movie_image">
                                                     </div>
-                                                </form>
                                                 <div class="form-group">
                                                     <label for="movie_genre">Жанр фильма</label>
                                                     <input type="text" class="form-control" name="movie_genre"
@@ -232,6 +247,7 @@ class Panel
                                                            id="movie_trailer"
                                                            placeholder="Введите ссылку на трейлер">
                                                 </div>
+                                                <input type="hidden" id="movie_id" name="movieId" value="<?php echo $movieId; ?>">
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
@@ -305,12 +321,15 @@ class Panel
                                 <div class="small-info">
                                     <span>Номер билета: <?= $order['ticket_number'] ?></span> <br>
                                     <span>Имя покупателя: <?= $order['full_name'] ?></span>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#order-modal-<?= $order['ticket_number'] ?>">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#order-modal-<?= $order['ticket_number'] ?>">
                                         Посмотреть полную информацию
                                     </button>
 
-                                    <div class="modal fade" id="order-modal-<?= $order['ticket_number'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="order-modal-<?= $order['ticket_number'] ?>"
+                                         tabindex="-1"
+                                         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -329,7 +348,9 @@ class Panel
                                                     <span>Дата показа: <?= $order['date_movie'] ?></span> <br>
                                                     <span>Время показа: <?= $order['time_movie'] ?></span> <br>
                                                     <span>Фильм: <?= $order['movie_title'] ?></span> <br>
-                                                    <img class="fix-image" src="../../resource/qrcodes/bilet_<?= $order['qr'] ?>.png" alt="Картинка">
+                                                    <img class="fix-image"
+                                                         src="../../resource/qrcodes/bilet_<?= $order['qr'] ?>.png"
+                                                         alt="Картинка">
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"

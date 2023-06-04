@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once '../template/jsconnect.php';
 
@@ -11,7 +12,7 @@ $database = new Medoo([
     'username' => 'root',
     'password' => ''
 ]);
-
+    $_SESSION['movie_id'] = $_POST['movieId'];
     $movieId = $_POST['movieId'];
 
 $film = $database->get('movies', [

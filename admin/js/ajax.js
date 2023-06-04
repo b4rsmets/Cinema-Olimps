@@ -163,18 +163,22 @@ $(document).ready(function() {
             method: 'POST',
             data: {movieId: movieId},
             success: function (response) {
-                $('#movie_title').val(response.movie_title);
-                $('#movie_restriction').val(response.movie_restriction);
-                $('#movie_image').val(response.movie_image);
-                $('#movie_genre').val(response.movie_genre);
-                $('#movie_description').val(response.movie_description);
-                $('#movie_duration').val(response.movie_duration);
-                $('#movie_country').val(response.movie_country);
-                $('#movie_trailer').val(response.movie_trailer);
+                var movie = JSON.parse(response);
+                $('#movie_title').val(movie.movie_title);
+                $('#movie_restriction').val(movie.movie_restriction);
+                $('#movie_image').val(movie.movie_image);
+                $('#movie_genre').val(movie.movie_genre);
+                $('#movie_description').val(movie.movie_description);
+                $('#movie_duration').val(movie.movie_duration);
+                $('#movie_country').val(movie.movie_country);
+                $('#movie_trailer').val(movie.movie_trailer);
+
+                // Сохраняем movieId в data атрибуте кнопки сохранения изменений
+                $('#save_changes').data('movie-id', movieId);
             },
             error: function (xhr, status, error) {
                 // Обработка ошибки удаления фильма
-                var errorMessage = 'Ошибка с редактированием';
+                var errorMessage = 'Ошибка при редактировании';
 
                 // Отображение сообщения об ошибке
                 $('#error-message')
@@ -193,6 +197,7 @@ $(document).ready(function() {
 
     $('#save_changes').click(function () {
         var movieId = $(this).data('movie-id');
+        console.log('movieId:', movieId);// Получаем movieId из data атрибута кнопки
         var movieData = {
             movieId: movieId,
             movieTitle: $('#movie_title').val(),
@@ -208,31 +213,30 @@ $(document).ready(function() {
         $.ajax({
             url: '/admin/ajax/update_movie.php',
             method: 'POST',
-            data: movieData,  // Pass the movieData object directly
+            data: movieData,
             success: function (response) {
                 $('#editMovieModal').modal('hide');
-                var errorMessage = 'Обновлено';
+                var errorMessage = 'Фильм успешно обновлен';
 
-                // Отображение сообщения об ошибке
+                // Отображение сообщения об успехе
                 $('#error-message')
                     .removeClass()
                     .addClass('alert alert-success')
                     .text(errorMessage)
                     .show();
 
-                // Затемнение сообщения об ошибке на некоторое время
+                // Затемнение сообщения об успехе на некоторое время
                 setTimeout(function () {
                     $('#error-message').hide();
                 }, 5000);
-
             },
             error: function (xhr, status, error) {
-                var errorMessage = 'Ошибка';
+                var errorMessage = 'Ошибка при обновлении фильма';
 
                 // Отображение сообщения об ошибке
                 $('#error-message')
                     .removeClass()
-                    .addClass('alert alert-success')
+                    .addClass('alert alert-danger')
                     .text(errorMessage)
                     .show();
 
