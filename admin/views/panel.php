@@ -312,22 +312,47 @@ class Panel
                 </div>
                 <div id="orders" class="panel" style="display:none;">
                     <h2>Заказы</h2>
+                    <label for="selected-date">Выберите дату, чтобы увидеть заказы:</label>
+                    <input type="date" id="selected-date" name="selected-date">
 
+                    <button id="filter-btn" type="button" class="btn btn-primary">Смотреть</button>
+                    <script>
+                        document.getElementById("filter-btn").addEventListener("click", function () {
+                            var selectedDateStr = document.getElementById("selected-date").value;
+                            var selectedDateParts = selectedDateStr.split("-");
+                            var selectedDate = selectedDateParts[2] + "." + selectedDateParts[1] + "." + selectedDateParts[0];
+
+                            var orders = document.getElementsByClassName("card-order-admin");
+
+                            for (var i = 0; i < orders.length; i++) {
+                                var order = orders[i];
+                                var orderDateStr = order.getElementsByClassName("date-movie")[0].textContent;
+
+                                if (orderDateStr.includes(selectedDate)) {
+                                    order.style.display = "block";
+                                } else {
+                                    order.style.display = "none";
+                                }
+                            }
+                        });
+
+                    </script>
                     <div class="container-orders-admin">
                         <?
                         foreach ($orders as $order) {
                             ?>
                             <div class="card-order-admin">
                                 <div class="small-info">
-                                    <span>Номер билета: <?= $order['ticket_number'] ?></span> <br>
-                                    <span>Имя покупателя: <?= $order['full_name'] ?></span>
+                                    <span>Номер билета: <b><?= $order['ticket_number'] ?></b></span> <br>
+                                    <span>Дата показа: <b><?= date('d.m.y', strtotime($order['date_movie'])) ?></b></span> <br>
+                                    <span>Время показа: <b><?= date('H:i', strtotime($order['time_movie'])) ?></b></span> <br>
+                                    <span>Имя покупателя: <b><?= $order['full_name'] ?></b></span>
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#order-modal-<?= $order['ticket_number'] ?>">
                                         Посмотреть полную информацию
                                     </button>
 
-                                    <div class="modal fade" id="order-modal-<?= $order['ticket_number'] ?>"
-                                         tabindex="-1"
+                                    <div class="modal fade" id="order-modal-<?= $order['ticket_number'] ?>" tabindex="-1"
                                          role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                                         <div class="modal-dialog" role="document">
@@ -345,7 +370,9 @@ class Panel
                                                     <span>Имя покупателя: <?= $order['full_name'] ?></span> <br>
                                                     <span>Телефон: <?= $order['phone'] ?></span> <br>
                                                     <span>Почта: <?= $order['email'] ?></span> <br>
-                                                    <span>Дата показа: <?= $order['date_movie'] ?></span> <br>
+                                                    <span>Ряд: <?= $order['row'] ?></span> <br>
+                                                    <span>Место: <?= $order['place'] ?></span> <br>
+                                                    <span class="date-movie">Дата показа: <?= date('d.m.Y', strtotime($order['date_movie'])) ?></span> <br>
                                                     <span>Время показа: <?= $order['time_movie'] ?></span> <br>
                                                     <span>Фильм: <?= $order['movie_title'] ?></span> <br>
                                                     <img class="fix-image"
@@ -363,12 +390,14 @@ class Panel
 
                                 </div>
                             </div>
-
                             <?
                         }
                         ?>
                     </div>
                 </div>
+
+
+
             </div>
         </div>
         <?php
