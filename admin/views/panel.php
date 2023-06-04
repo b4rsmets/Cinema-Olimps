@@ -59,6 +59,16 @@ class Panel
             'movies.movie_image(movie_image)'
         ]);
 
+// Создаем временный массив для хранения значений date_movie
+        $tempDates = [];
+        foreach ($orders as $order) {
+            $tempDates[] = $order['seans']['date_movie'];
+        }
+
+// Сортируем массивы результатов и временный массив по убыванию date_movie
+        array_multisort($tempDates, SORT_DESC, $orders);
+
+
         $news = $this->database->select('news', ['id', 'news_image', 'news_title', 'news_date', 'news_description']);
         $films = $this->database->select('movies', ['id', 'movie_title', 'movie_image', 'movie_restriction', 'movie_image', 'movie_genre', 'movie_description', 'movie_duration', 'movie_country', 'movie_trailer']);
         $sessions = $this->database->select('seans', [
@@ -316,32 +326,12 @@ class Panel
                     <input type="date" id="selected-date" name="selected-date">
 
                     <button id="filter-btn" type="button" class="btn btn-primary">Смотреть</button>
-                    <script>
-                        document.getElementById("filter-btn").addEventListener("click", function () {
-                            var selectedDateStr = document.getElementById("selected-date").value;
-                            var selectedDateParts = selectedDateStr.split("-");
-                            var selectedDate = selectedDateParts[2] + "." + selectedDateParts[1] + "." + selectedDateParts[0];
 
-                            var orders = document.getElementsByClassName("card-order-admin");
-
-                            for (var i = 0; i < orders.length; i++) {
-                                var order = orders[i];
-                                var orderDateStr = order.getElementsByClassName("date-movie")[0].textContent;
-
-                                if (orderDateStr.includes(selectedDate)) {
-                                    order.style.display = "block";
-                                } else {
-                                    order.style.display = "none";
-                                }
-                            }
-                        });
-
-                    </script>
-                    <div class="container-orders-admin">
+                    <div class="container-orders-admin" style="display:none;">
                         <?
                         foreach ($orders as $order) {
                             ?>
-                            <div class="card-order-admin">
+                            <div class="card-order-admin" style="display:none;">
                                 <div class="small-info">
                                     <span>Номер билета: <b><?= $order['ticket_number'] ?></b></span> <br>
                                     <span>Дата показа: <b><?= date('d.m.y', strtotime($order['date_movie'])) ?></b></span> <br>
@@ -373,7 +363,7 @@ class Panel
                                                     <span>Ряд: <?= $order['row'] ?></span> <br>
                                                     <span>Место: <?= $order['place'] ?></span> <br>
                                                     <span class="date-movie">Дата показа: <?= date('d.m.Y', strtotime($order['date_movie'])) ?></span> <br>
-                                                    <span>Время показа: <?= $order['time_movie'] ?></span> <br>
+                                                    <span>Время показа: <?= date('H:i', strtotime($order['time_movie']))?></span> <br>
                                                     <span>Фильм: <?= $order['movie_title'] ?></span> <br>
                                                     <img class="fix-image"
                                                          src="../../resource/qrcodes/bilet_<?= $order['qr'] ?>.png"
@@ -387,12 +377,103 @@ class Panel
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <?
                         }
                         ?>
+                        <div id="pagination" class="pagination"></div>
+                        <script>
+                            var itemsPerPage = 4;
+                            document.getElementById("filter-btn").addEventListener("click", function () {
+                                var selectedDateStr = document.getElementById("selected-date").value;
+                                var selectedDateParts = selectedDateStr.split("-");
+                                var selectedDate = selectedDateParts[2] + "." + selectedDateParts[1] + "." + selectedDateParts[0];
+
+                                var orders = document.getElementsByClassName("card-order-admin");
+
+                                // Скрываем все элементы
+                                for (var i = 0; i < orders.length; i++) {
+                                    orders[i].style.display = "none";
+                                }
+
+                                // Фильтруем и отображаем только соответствующие заказы
+                                var filteredOrders = [];
+                                for (var i = 0; i < orders.length; i++) {
+                                    var order = orders[i];
+                                    var orderDateStr = order.getElementsByClassName("date-movie")[0].textContent;
+
+                                    if (orderDateStr.includes(selectedDate)) {
+                                        filteredOrders.push(order);
+                                    }
+                                }
+
+                                // Показываем только первые три элемента
+                                for (var i = 0; i < filteredOrders.length; i++) {
+                                    if (i < itemsPerPage) {
+                                        filteredOrders[i].style.display = "block";
+                                    }
+                                }
+
+                                // Показываем контейнер с заказами после фильтрации
+                                var containerOrders = document.querySelector(".container-orders-admin");
+                                containerOrders.style.display = "block";
+
+                                // При каждом фильтре обновляем пагинацию
+                                updatePagination(filteredOrders);
+                            });
+
+                            // Функция для обновления пагинации
+                            function updatePagination(filteredOrders) {
+                                var numPages = Math.ceil(filteredOrders.length / itemsPerPage);
+
+                                // Очищаем пагинацию
+                                var paginationContainer = document.getElementById("pagination");
+                                paginationContainer.innerHTML = "";
+
+                                // Создаем ссылки для пагинации
+                                for (var i = 1; i <= numPages; i++) {
+                                    var link = document.createElement("a");
+                                    link.href = "#";
+                                    link.textContent = i;
+
+                                    // Добавляем класс "active" к текущей странице
+                                    if (i === 1) {
+                                        link.classList.add("active");
+                                    }
+
+                                    // Обработчик события при клике на ссылку пагинации
+                                    link.addEventListener("click", function (event) {
+                                        event.preventDefault();
+
+                                        // Удаляем класс "active" у всех ссылок
+                                        var paginationLinks = paginationContainer.getElementsByTagName("a");
+                                        for (var j = 0; j < paginationLinks.length; j++) {
+                                            paginationLinks[j].classList.remove("active");
+                                        }
+
+                                        // Показываем только элементы текущей страницы
+                                        var pageNumber = parseInt(this.textContent);
+                                        var startIndex = (pageNumber - 1) * itemsPerPage;
+                                        var endIndex = startIndex + itemsPerPage;
+
+                                        for (var k = 0; k < filteredOrders.length; k++) {
+                                            if (k >= startIndex && k < endIndex) {
+                                                filteredOrders[k].style.display = "block";
+                                            } else {
+                                                filteredOrders[k].style.display = "none";
+                                            }
+                                        }
+
+                                        // Добавляем класс "active" к текущей ссылке
+                                        this.classList.add("active");
+                                    });
+
+                                    paginationContainer.appendChild(link);
+                                }
+                            }
+
+                        </script>
                     </div>
                 </div>
 
