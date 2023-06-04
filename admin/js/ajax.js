@@ -248,3 +248,43 @@ $(document).ready(function() {
         });
     });
 });
+$(document).on('click', '.delete-order', function () {
+    var orderId = $(this).data('order');
+
+    $.ajax({
+        url: '/admin/ajax/delete-order.php',
+        type: 'POST',
+        data: {orderId: orderId},
+        success: function (response) {
+            var errorMessage = 'Заказ удален';
+
+            $('#error-message')
+                .removeClass()
+                .addClass('alert alert-success')
+                .text(errorMessage)
+                .show();
+
+            setTimeout(function () {
+                $('#error-message').hide();
+            }, 5000);
+
+            $('.card-order-admin[data-order-id="' + orderId + '"]').remove();
+
+            // Закрытие модального окна
+            $('.modal fade show').modal('hide');
+        },
+        error: function (xhr, status, error) {
+            var errorMessage = 'Ошибка с удалением';
+
+            $('#error-message')
+                .removeClass()
+                .addClass('alert alert-danger')
+                .text(errorMessage)
+                .show();
+
+            setTimeout(function () {
+                $('#error-message').hide();
+            }, 5000);
+        }
+    });
+});

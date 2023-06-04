@@ -123,7 +123,7 @@ class Panel
 
                 </div>
             </div>
-
+            <div id="error-message" class="" role="alert" style="display: none;"></div>
             <div class="content">
                 <div class="info-admin">
                     <h3>Вы находитесь в панели администратора кинотеатра Олимп</h3>
@@ -166,7 +166,7 @@ class Panel
                         </div>
                     </div>
                     <!-- Modal -->
-                    <div id="error-message" class="" role="alert" style="display: none;"></div>
+
                     <div id="container-admin-films" class="container-admin-films">
 
                         <?php foreach ($films as $film) { ?>
@@ -322,6 +322,7 @@ class Panel
                 </div>
                 <div id="orders" class="panel" style="display:none;">
                     <h2>Заказы</h2>
+
                     <label for="selected-date">Выберите дату, чтобы увидеть заказы:</label>
                     <input type="date" id="selected-date" name="selected-date">
 
@@ -337,6 +338,9 @@ class Panel
                                     <span>Дата показа: <b><?= date('d.m.y', strtotime($order['date_movie'])) ?></b></span> <br>
                                     <span>Время показа: <b><?= date('H:i', strtotime($order['time_movie'])) ?></b></span> <br>
                                     <span>Имя покупателя: <b><?= $order['full_name'] ?></b></span>
+
+                                </div>
+                                <div class="right-info-order">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#order-modal-<?= $order['ticket_number'] ?>">
                                         Посмотреть полную информацию
@@ -370,9 +374,11 @@ class Panel
                                                          alt="Картинка">
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
+                                                    <button type="button" data-order="<?= $order['id'] ?>"
+                                                            class="btn btn-danger delete-order">Удалить заказ</button>                                                    <button type="button" class="btn btn-secondary"
                                                             data-dismiss="modal">Закрыть
                                                     </button>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -411,7 +417,7 @@ class Panel
                                 // Показываем только первые три элемента
                                 for (var i = 0; i < filteredOrders.length; i++) {
                                     if (i < itemsPerPage) {
-                                        filteredOrders[i].style.display = "block";
+                                        filteredOrders[i].style.display = "flex";
                                     }
                                 }
 
@@ -459,7 +465,7 @@ class Panel
 
                                         for (var k = 0; k < filteredOrders.length; k++) {
                                             if (k >= startIndex && k < endIndex) {
-                                                filteredOrders[k].style.display = "block";
+                                                filteredOrders[k].style.display = "flex";
                                             } else {
                                                 filteredOrders[k].style.display = "none";
                                             }

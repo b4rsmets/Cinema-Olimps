@@ -183,6 +183,7 @@ body{
 }
 #error-message{
     width: 291px;
+    left: 350px;
     height: 50px;
     position: absolute;
     top: 179px;
@@ -203,10 +204,14 @@ body{
     flex-wrap: nowrap;
 }
 .card-order-admin{
-    width: 356px;
+    width: 100%;
     height: 170px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 19px;
     margin-left: 2px;
+    border-bottom: 1px solid #d4cfcf;
 }
 .fix-image{
     width: 200px;
