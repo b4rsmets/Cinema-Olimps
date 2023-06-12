@@ -12,7 +12,6 @@ function autoload($class_name)
     else {
  header("HTTP/1.0 404 Not Found");
 //// Выводит сообщение о том, что такой страницы не существует
- echo "К сожалению такой страницы не существует. [" . PATH_SITE . $class_name . ".php ]";
 // Выводит сообщение 404
         require './views/404.php';
         require_once "./views/footer.php";

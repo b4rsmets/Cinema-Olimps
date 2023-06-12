@@ -95,8 +95,9 @@ class Panel
                     </div>
                     <div class="img-side"><img src="../admin/source/img/calendar.png" alt="">
                         <li>
-                            <button class="sidebar-button" data-panel-id="sessions">Сеансы</button>
+                            <button class="sidebar-button" data-panel-id="seans">Сеансы</button>
                         </li>
+
                     </div>
                     <div class="img-side"><img src="../admin/source/img/users.png" alt="">
                         <li>
@@ -141,6 +142,7 @@ class Panel
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                         Добавить фильм в прокат
                     </button>
+                    <!--Добавления фильма-->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel"
                          aria-hidden="true">
@@ -190,6 +192,7 @@ class Panel
                                     echo '<div class="danger">Некоторые поля пустые</div>';
                                 }
                                 ?>
+                                <!-- Кнопки работы с фильмами  -->
                                 <div class="movie-img-admin"><img
                                             src="../resource/uploads/afisha/<?= $film['movie_image'] ?>" alt=""></div>
                                 <div class="name-film-admin"><span><?= $film['movie_title'] ?></span></div>
@@ -201,6 +204,32 @@ class Panel
                                     Редактировать фильм
                                 </button>
 
+
+                                <!-- Кнопки работы с фильмами  -->
+
+<!--                                <!-- Модальное окно сеансов -->-->
+<!--                                <div class="modal fade" id="seansModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--                                    <div class="modal-dialog" role="document">-->
+<!--                                        <div class="modal-content">-->
+<!--                                            <div class="modal-header">-->
+<!--                                                <h5 class="modal-title" id="exampleModalLabel">Сеансы к фильму  --><?php //= $film['movie_title'] ?><!--</h5>-->
+<!--                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                                                    <span aria-hidden="true">&times;</span>-->
+<!--                                                </button>-->
+<!--                                            </div>-->
+<!--                                            <div class="modal-body">-->
+<!--                                                <div id="seans-list"></div>-->
+<!--                                            </div>-->
+<!--                                            <div class="modal-footer">-->
+<!--                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>-->
+<!--                                                <button type="button" class="btn btn-primary">Добавить сеанс</button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <!-- Модальное окно сеансов -->-->
+
+                                <!-- Модальное окно редактирования  -->
                                 <div class="modal fade" id="editMovieModal" tabindex="-1" role="dialog"
                                      aria-labelledby="editMovieModalLabel"
                                      aria-hidden="true">
@@ -277,19 +306,13 @@ class Panel
                                         </div>
                                     </div>
                                 </div>
-
+                                <!-- Модальное окно редактирования  -->
                             </div>
                         <?php } ?>
 
                     </div>
                 </div>
 
-                <div id="sessions" class="panel" style="display:none;">
-                    <h2>Сеансы</h2>
-                    <?php foreach ($sessions as $session) { ?>
-                        <div><?php print_r($session); ?></div>
-                    <?php } ?>
-                </div>
 
                 <div id="users" class="panel" style="display:none;">
                     <h2>Пользователи</h2>
@@ -319,12 +342,72 @@ class Panel
                         </div>
                     <?php } ?>
                 </div>
+
+                <!--Сеансы-->
+                <div id="seans" class="panel" style="display:none;">
+                    <h2>Сеансы</h2>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#seansAdd">
+                        Добавить сеанс
+                    </button>
+                    <div class="modal fade" id="seansAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Добавление сеанса</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" id="addMovieForm">
+                                        <div class="form-group">
+                                            <label for="movieSelect">Выберите фильм:</label>
+                                            <select class="form-control" id="movieSelect" name="movie">
+                                                <?php foreach ($films as $filmselect) { ?>
+                                                    <option value="<?php echo $filmselect['id']; ?>"><?php echo $filmselect['movie_title']; ?></option>
+                                                <?php } ?>
+                                            </select>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="timeInput">Выберите время:</label>
+                                            <input type="time" class="form-control" id="timeInput" name="time">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dateInput">Выберите дату:</label>
+                                            <input type="date" class="form-control" id="dateInput" name="date">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="priceInput">Цена:</label>
+                                            <input type="number" class="form-control" id="priceInput" name="price">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                    <button type="submit" class="btn btn-primary" id="addSeansButton">Добавить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--Сеансы-->
+
+
+                <!--Новости-->
+
                 <div id="news" class="panel" style="display:none;">
                     <h2>Новости</h2>
                     <?php foreach ($news as $new) { ?>
                         <div><?php print_r($new); ?></div>
                     <?php } ?>
                 </div>
+                <!--Новости-->
+
+
+                <!--Заказы-->
+
                 <div id="orders" class="panel" style="display:none;">
                     <h2>Заказы</h2>
 

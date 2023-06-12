@@ -288,3 +288,59 @@ $(document).on('click', '.delete-order', function () {
         }
     });
 });
+$(document).ready(function() {
+    $('#addSeansButton').click(function() {
+        // Получаем значения полей формы
+        var movieId = $('#movieSelect').val();
+        var time = $('#timeInput').val();
+        var date = $('#dateInput').val();
+        var price = $('#priceInput').val();
+
+        // Отправляем AJAX-запрос на сервер
+        $.ajax({
+            url: '/admin/ajax/add-seans.php',
+            type: 'POST',
+            data: {
+                movie: movieId,
+                time: time,
+                date: date,
+                price: price
+            },
+            success: function(response) {
+                // Обработка успешного ответа от сервера
+                var result = JSON.parse(response);
+                if (result.success) {
+                    alert(result.message);
+                    // Закрываем модальное окно после успешного добавления
+                    var errorMessage = 'Сеанс добавлен';
+                    $('#seansAdd').modal('hide');
+                    $('#error-message')
+                        .removeClass()
+                        .addClass('alert alert-success')
+                        .text(errorMessage)
+                        .show();
+
+                    setTimeout(function () {
+                        $('#error-message').hide();
+                    }, 5000);
+                } else {
+                    alert('Ошибка: ' + result.message);
+                }
+            },
+            error: function() {
+                // Обработка ошибки AJAX-запроса
+                var errorMessage = 'Сеанс добавлен';
+                $('#seansAdd').modal('hide');
+                $('#error-message')
+                    .removeClass()
+                    .addClass('alert alert-success')
+                    .text(errorMessage)
+                    .show();
+
+                setTimeout(function () {
+                    $('#error-message').hide();
+                }, 5000);
+            }
+        });
+    });
+});
