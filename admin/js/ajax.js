@@ -392,6 +392,7 @@ $(document).on('click', '#edit-seans', function () {
             // Сохраняем movieId в data атрибуте кнопки сохранения изменений
             $('#save_changes').data('seansid', seansId);
         },
+
         error: function (xhr, status, error) {
             // Обработка ошибки удаления фильма
             var errorMessage = 'Ошибка при редактировании';

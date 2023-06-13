@@ -42,7 +42,7 @@ class Panel
 
         // Формируем условие фильтрации по дате, если она была выбрана
         $dateCondition = isset($_POST['report-date']) ? ['seans.date_movie' => $_POST['report-date']] : [];
-
+        $users = $this->database->select('users', ['id', 'login', 'role']);
         $orders = $this->database->select('orders', [
             '[>]users' => ['id_user' => 'id'],
             '[>]seans' => ['id_seans' => 'id'],
@@ -391,7 +391,50 @@ class Panel
                                 </tr>
                                 <div class="modal fade" id="editSeansModal" tabindex="-1" role="dialog"
                                      aria-labelledby="editMovieModalLabel" aria-hidden="true">
-                                    <!-- Код модального окна редактирования сеанса -->
+                                    aria-labelledby="editMovieModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editMovieModalLabel">Редактировать
+                                                    сеанс</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form enctype="multipart/form-data" method="post">
+                                                    <div class="form-group">
+                                                        <label for="date_movie">Выберите дату:</label>
+                                                        <input type="date" class="form-control" name="date_movie"
+                                                               id="date_movie">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="time_movie">Выберите время:</label>
+                                                        <input type="time" class="form-control" id="time_movie"
+                                                               name="time_movie">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="price">Цена:</label>
+                                                        <input type="number" class="form-control" id="price"
+                                                               name="price">
+                                                    </div>
+                                                    <input type="hidden" id="movie_id" name="movieId"
+                                                           value="<?php echo $seansId; ?>">
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Закрыть
+                                                </button>
+                                                <button type="button" id="save_changes-seans"
+                                                        data-seansid="<?= $seansId ?>" class="btn btn-primary">
+                                                    Сохранить изменения
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             <?php } ?>
                             </tbody>
@@ -680,7 +723,7 @@ class Panel
                         </script>
                     </div>
                 </div>
-                <div id="report" class="panel">
+                <div id="report" style="display: none" class="panel">
                     <h2>Отчет</h2>
                     <form method="post" action="">
                         <label for="report-date">Выберите дату:</label>
