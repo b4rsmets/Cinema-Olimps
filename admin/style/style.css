@@ -263,3 +263,8 @@ body{
     display: flex;
     justify-content: space-between;
 }
+#seans-table>tbody>tr>td>button{
+    /* margin-bottom: 5px; */
+    position: relative;
+    bottom: 7px;
+}

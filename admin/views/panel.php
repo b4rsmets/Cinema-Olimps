@@ -283,10 +283,11 @@ class Panel
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                                     Закрыть
                                                 </button>
-                                                <button type="button" id="save_changes"
-                                                        data-movie-id="<?= $film['id'] ?>" class="btn btn-primary">
-                                                    Сохранить изменения
+                                                <button type="button" id="save_changes-seans"
+                                                        data-seansid="<?= $seansId ?>" class="btn btn-primary">Сохранить
+                                                    изменения
                                                 </button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -332,18 +333,18 @@ class Panel
                 <div id="seans" class="panel" style="display:none;">
                     <h2>Сеансы</h2>
                     <div class="header-seans">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#seansAdd">
-                        Добавить сеанс
-                    </button>
-                    <div class="filters-seans">
-                    <label for="movie-select">Выберите фильм:</label>
-                    <select id="movie-select" class="form-control">
-                        <option value="">Все фильмы</option>
-                        <?php foreach ($films as $filmchoose) { ?>
-                            <option value="<?php echo $filmchoose['movie_title']; ?>"><?php echo $filmchoose['movie_title']; ?></option>
-                        <?php } ?>
-                    </select>
-                    </div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#seansAdd">
+                            Добавить сеанс
+                        </button>
+                        <div class="filters-seans">
+                            <label for="movie-select">Выберите фильм:</label>
+                            <select id="movie-select" class="form-control">
+                                <option value="">Все фильмы</option>
+                                <?php foreach ($films as $filmchoose) { ?>
+                                    <option value="<?php echo $filmchoose['movie_title']; ?>"><?php echo $filmchoose['movie_title']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
                     </div>
                     <div class="seans-films">
                         <table id="seans-table" class="table table-striped">
@@ -358,15 +359,72 @@ class Panel
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($sessions as $item) { ?>
+                            <?php foreach ($sessions as $item) {
+                                $seansId = $item['id'] ?>
                                 <tr>
                                     <td><?php echo $item['movie_title']; ?></td>
                                     <td><?php echo date('d.m.y', strtotime($item['date_movie'])); ?></td>
                                     <td><?php echo date('H:i', strtotime($item['time_movie'])); ?></td>
                                     <td><?php echo $item['price']; ?> ₽</td>
-                                    <td><button type="button" class="btn btn-success">Редактировать</button></td>
-                                    <td><button type="button" class="btn btn-danger">Удалить</button></td>
+                                    <td>
+                                        <button type="button" id="edit-seans" data-toggle="modal"
+                                                data-target="#editSeansModal" data-seansId="<?= $item['id']; ?>"
+                                                class="btn btn-success">Редактировать
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button type="button" id="delete-seans" data-seansId="<?= $item['id']; ?>"
+                                                class="btn btn-danger">Удалить
+                                        </button>
+                                    </td>
                                 </tr>
+                                <div class="modal fade" id="editSeansModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="editMovieModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editMovieModalLabel">Редактировать
+                                                    сеанс</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form enctype="multipart/form-data" method="post">
+                                                    <div class="form-group">
+                                                        <label for="date_movie">Выберите дату:</label>
+                                                        <input type="date" class="form-control" name="date_movie"
+                                                               id="date_movie">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="time_movie">Выберите время:</label>
+                                                        <input type="time" class="form-control" id="time_movie"
+                                                               name="time_movie">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="price">Цена:</label>
+                                                        <input type="number" class="form-control" id="price"
+                                                               name="price">
+                                                    </div>
+                                                    <input type="hidden" id="movie_id" name="movieId"
+                                                           value="<?php echo $seansId; ?>">
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Закрыть
+                                                </button>
+                                                <button type="button" id="save_changes-seans"
+                                                        data-seansid="<?= $seansId ?>" class="btn btn-primary">
+                                                    Сохранить изменения
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php } ?>
                             </tbody>
                         </table>
@@ -401,53 +459,52 @@ class Panel
                     }
                 </script>
 
-                    </div>
 
-                    <div class="modal fade" id="seansAdd" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Добавление сеанса</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="post" id="addMovieForm">
-                                        <div class="form-group">
-                                            <label for="movieSelect">Выберите фильм:</label>
-                                            <select class="form-control" id="movieSelect" name="movie">
-                                                <?php foreach ($films as $filmselect) { ?>
-                                                    <option value="<?php echo $filmselect['id']; ?>"><?php echo $filmselect['movie_title']; ?></option>
-                                                <?php } ?>
-                                            </select>
+                <div class="modal fade" id="seansAdd" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Добавление сеанса</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" id="addMovieForm">
+                                    <div class="form-group">
+                                        <label for="movieSelect">Выберите фильм:</label>
+                                        <select class="form-control" id="movieSelect" name="movie">
+                                            <?php foreach ($films as $filmselect) { ?>
+                                                <option value="<?php echo $filmselect['id']; ?>"><?php echo $filmselect['movie_title']; ?></option>
+                                            <?php } ?>
+                                        </select>
 
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="timeInput">Выберите время:</label>
-                                            <input type="time" class="form-control" id="timeInput" name="time">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="dateInput">Выберите дату:</label>
-                                            <input type="date" class="form-control" id="dateInput" name="date">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="priceInput">Цена:</label>
-                                            <input type="number" class="form-control" id="priceInput" name="price">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть
-                                    </button>
-                                    <button type="submit" class="btn btn-primary" id="addSeansButton">Добавить</button>
-                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="timeInput">Выберите время:</label>
+                                        <input type="time" class="form-control" id="timeInput" name="time">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateInput">Выберите дату:</label>
+                                        <input type="date" class="form-control" id="dateInput" name="date">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="priceInput">Цена:</label>
+                                        <input type="number" class="form-control" id="priceInput" name="price">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="addSeansButton">Добавить</button>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+
                 <!--Сеансы-->
 
 
@@ -665,8 +722,6 @@ class Panel
                     echo '</div>';
                     ?>
                 </div>
-
-
             </div>
         </div>
         <?php

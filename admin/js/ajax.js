@@ -344,3 +344,112 @@ $(document).ready(function() {
         });
     });
 });
+$(document).on('click', '#delete-seans', function () {
+    var seansId = $(this).data('seansid');
+    $.ajax({
+        url: '/admin/ajax/delete_seans.php',
+        type: 'POST',
+        data: {seansId: seansId},
+        success: function (response) {
+            var errorMessage = 'Сеанс    удален';
+            $('#error-message')
+                .removeClass()
+                .addClass('alert alert-success')
+                .text(errorMessage)
+                .show();
+
+            // Загрузка содержимого контейнера #seans после успешного удаления
+            setTimeout(function () {
+                $('#error-message').hide();
+            }, 5000);
+        },
+        error: function (xhr, status, error) {
+            var errorMessage = 'Ошибка с удалением';
+            $('#error-message')
+                .removeClass()
+                .addClass('alert alert-danger')
+                .text(errorMessage)
+                .show();
+
+            setTimeout(function () {
+                $('#error-message').hide();
+            }, 5000);
+        }
+    });
+});
+$(document).on('click', '#edit-seans', function () {
+    var seansId = $(this).data('seansid');
+    $.ajax({
+        url: '/admin/ajax/edit_seans.php',
+        method: 'POST',
+        data: {seansId: seansId},
+        success: function (response) {
+            var seans = JSON.parse(response);
+            $('#date_movie').val(seans.date_movie);
+            $('#time_movie').val(seans.time_movie);
+            $('#price').val(seans.price);
+
+            // Сохраняем movieId в data атрибуте кнопки сохранения изменений
+            $('#save_changes').data('seansid', seansId);
+        },
+        error: function (xhr, status, error) {
+            // Обработка ошибки удаления фильма
+            var errorMessage = 'Ошибка при редактировании';
+
+            // Отображение сообщения об ошибке
+            $('#error-message')
+                .removeClass()
+                .addClass('alert alert-danger')
+                .text(errorMessage)
+                .show();
+
+            // Затемнение сообщения об ошибке на некоторое время
+            setTimeout(function () {
+                $('#error-message').hide();
+            }, 5000);
+        }
+    });
+});
+$(document).on('click', '#save_changes-seans', function () {
+    var seansid = $(this).attr('data-seansid');
+    var seans = {
+        seansId: seansid,
+        dateMovie: $('#date_movie').val(),
+        timeMovie: $('#time_movie').val(),
+        price: $('#price').val()
+    };
+
+    $.ajax({
+        url: '/admin/ajax/update_seans.php',
+        method: 'POST',
+        data: JSON.stringify(seans),
+        contentType: 'application/json',
+        success: function (response) {
+            $('#editSeansModal').modal('hide');
+            var errorMessage = 'Сеанс успешно обновлен';
+
+            $('#error-message')
+                .removeClass()
+                .addClass('alert alert-success')
+                .text(errorMessage)
+                .show();
+
+            setTimeout(function () {
+                $('#error-message').hide();
+            }, 5000);
+        },
+        error: function (xhr, status, error) {
+            var errorMessage = 'Ошибка при обновлении сеанса';
+
+            $('#error-message')
+                .removeClass()
+                .addClass('alert alert-danger')
+                .text(errorMessage)
+                .show();
+
+            setTimeout(function () {
+                $('#error-message').hide();
+            }, 5000);
+        }
+    });
+});
