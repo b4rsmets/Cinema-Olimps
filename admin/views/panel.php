@@ -77,11 +77,18 @@ class Panel
             'seans.id',
             'seans.date_movie',
             'seans.time_movie',
+            'seans.price',
             'movies.id(movie_id)',
             'movies.movie_title',
             'movies.movie_image',
             'movies.movie_restriction'
         ]);
+
+        $today = date('Y-m-d');
+        $sessions = array_filter($sessions, function ($session) use ($today) {
+            return $session['date_movie'] >= $today;
+        });
+
         ?>
         <div id="wrapper">
 
@@ -206,29 +213,6 @@ class Panel
 
 
                                 <!-- Кнопки работы с фильмами  -->
-
-<!--                                <!-- Модальное окно сеансов -->-->
-<!--                                <div class="modal fade" id="seansModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--                                    <div class="modal-dialog" role="document">-->
-<!--                                        <div class="modal-content">-->
-<!--                                            <div class="modal-header">-->
-<!--                                                <h5 class="modal-title" id="exampleModalLabel">Сеансы к фильму  --><?php //= $film['movie_title'] ?><!--</h5>-->
-<!--                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                                                    <span aria-hidden="true">&times;</span>-->
-<!--                                                </button>-->
-<!--                                            </div>-->
-<!--                                            <div class="modal-body">-->
-<!--                                                <div id="seans-list"></div>-->
-<!--                                            </div>-->
-<!--                                            <div class="modal-footer">-->
-<!--                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>-->
-<!--                                                <button type="button" class="btn btn-primary">Добавить сеанс</button>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <!-- Модальное окно сеансов -->-->
-
                                 <!-- Модальное окно редактирования  -->
                                 <div class="modal fade" id="editMovieModal" tabindex="-1" role="dialog"
                                      aria-labelledby="editMovieModalLabel"
@@ -261,37 +245,38 @@ class Panel
                                                         <input type="file" class="form-control-file" name="movieImage"
                                                                id="movie_image">
                                                     </div>
-                                                <div class="form-group">
-                                                    <label for="movie_genre">Жанр фильма</label>
-                                                    <input type="text" class="form-control" name="movie_genre"
-                                                           id="movie_genre"
-                                                           placeholder="Введите жанр фильма">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="movie_description">Описание фильма</label>
-                                                    <textarea class="form-control" name="movie_description"
-                                                              id="movie_description" rows="3"
-                                                              placeholder="Введите описание фильма"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="movie_duration">Продолжительность фильма</label>
-                                                    <input type="text" class="form-control" name="movie_duration"
-                                                           id="movie_duration"
-                                                           placeholder="Введите продолжительность фильма">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="movie_country">Страна производства</label>
-                                                    <input type="text" class="form-control" name="movie_country"
-                                                           id="movie_country"
-                                                           placeholder="Введите страну производства">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="movie_trailer">Ссылка на трейлер</label>
-                                                    <input type="text" class="form-control" name="movie_trailer"
-                                                           id="movie_trailer"
-                                                           placeholder="Введите ссылку на трейлер">
-                                                </div>
-                                                <input type="hidden" id="movie_id" name="movieId" value="<?php echo $movieId; ?>">
+                                                    <div class="form-group">
+                                                        <label for="movie_genre">Жанр фильма</label>
+                                                        <input type="text" class="form-control" name="movie_genre"
+                                                               id="movie_genre"
+                                                               placeholder="Введите жанр фильма">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="movie_description">Описание фильма</label>
+                                                        <textarea class="form-control" name="movie_description"
+                                                                  id="movie_description" rows="3"
+                                                                  placeholder="Введите описание фильма"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="movie_duration">Продолжительность фильма</label>
+                                                        <input type="text" class="form-control" name="movie_duration"
+                                                               id="movie_duration"
+                                                               placeholder="Введите продолжительность фильма">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="movie_country">Страна производства</label>
+                                                        <input type="text" class="form-control" name="movie_country"
+                                                               id="movie_country"
+                                                               placeholder="Введите страну производства">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="movie_trailer">Ссылка на трейлер</label>
+                                                        <input type="text" class="form-control" name="movie_trailer"
+                                                               id="movie_trailer"
+                                                               placeholder="Введите ссылку на трейлер">
+                                                    </div>
+                                                    <input type="hidden" id="movie_id" name="movieId"
+                                                           value="<?php echo $movieId; ?>">
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
@@ -346,10 +331,80 @@ class Panel
                 <!--Сеансы-->
                 <div id="seans" class="panel" style="display:none;">
                     <h2>Сеансы</h2>
+                    <div class="header-seans">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#seansAdd">
                         Добавить сеанс
                     </button>
-                    <div class="modal fade" id="seansAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="filters-seans">
+                    <label for="movie-select">Выберите фильм:</label>
+                    <select id="movie-select" class="form-control">
+                        <option value="">Все фильмы</option>
+                        <?php foreach ($films as $filmchoose) { ?>
+                            <option value="<?php echo $filmchoose['movie_title']; ?>"><?php echo $filmchoose['movie_title']; ?></option>
+                        <?php } ?>
+                    </select>
+                    </div>
+                    </div>
+                    <div class="seans-films">
+                        <table id="seans-table" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Название фильма</th>
+                                <th scope="col">Дата сеанса</th>
+                                <th scope="col">Время сеанса</th>
+                                <th scope="col">Цена</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($sessions as $item) { ?>
+                                <tr>
+                                    <td><?php echo $item['movie_title']; ?></td>
+                                    <td><?php echo date('d.m.y', strtotime($item['date_movie'])); ?></td>
+                                    <td><?php echo date('H:i', strtotime($item['time_movie'])); ?></td>
+                                    <td><?php echo $item['price']; ?> ₽</td>
+                                    <td><button type="button" class="btn btn-success">Редактировать</button></td>
+                                    <td><button type="button" class="btn btn-danger">Удалить</button></td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <script>
+                    // Получаем ссылки на элементы DOM
+                    var movieSelect = document.getElementById('movie-select');
+                    var seansTable = document.getElementById('seans-table');
+
+                    // Слушаем событие изменения значения в select
+                    movieSelect.addEventListener('change', filterByMovie);
+
+                    // Функция фильтрации по выбранному фильму
+                    function filterByMovie() {
+                        var selectedMovie = movieSelect.value;
+
+                        // Получаем все строки таблицы, кроме заголовка
+                        var rows = seansTable.getElementsByTagName('tr');
+                        for (var i = 1; i < rows.length; i++) {
+                            var movieCell = rows[i].getElementsByTagName('td')[0];
+                            var movieTitle = movieCell.textContent || movieCell.innerText;
+
+                            // Проверяем, соответствует ли фильм выбранному значению
+                            if (selectedMovie === '' || movieTitle === selectedMovie) {
+                                rows[i].style.display = ''; // Отображаем строку
+                            } else {
+                                rows[i].style.display = 'none'; // Скрываем строку
+                            }
+                        }
+                    }
+                </script>
+
+                    </div>
+
+                    <div class="modal fade" id="seansAdd" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -384,7 +439,8 @@ class Panel
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть
+                                    </button>
                                     <button type="submit" class="btn btn-primary" id="addSeansButton">Добавить</button>
                                 </div>
                             </div>
@@ -423,8 +479,10 @@ class Panel
                             <div class="card-order-admin" style="display:none;">
                                 <div class="small-info">
                                     <span>Номер билета: <b><?= $order['ticket_number'] ?></b></span> <br>
-                                    <span>Дата показа: <b><?= date('d.m.y', strtotime($order['date_movie'])) ?></b></span> <br>
-                                    <span>Время показа: <b><?= date('H:i', strtotime($order['time_movie'])) ?></b></span> <br>
+                                    <span>Дата показа: <b><?= date('d.m.y', strtotime($order['date_movie'])) ?></b></span>
+                                    <br>
+                                    <span>Время показа: <b><?= date('H:i', strtotime($order['time_movie'])) ?></b></span>
+                                    <br>
                                     <span>Имя покупателя: <b><?= $order['full_name'] ?></b></span>
 
                                 </div>
@@ -434,7 +492,8 @@ class Panel
                                         Посмотреть полную информацию
                                     </button>
 
-                                    <div class="modal fade" id="order-modal-<?= $order['ticket_number'] ?>" tabindex="-1"
+                                    <div class="modal fade" id="order-modal-<?= $order['ticket_number'] ?>"
+                                         tabindex="-1"
                                          role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                                         <div class="modal-dialog" role="document">
@@ -454,8 +513,10 @@ class Panel
                                                     <span>Почта: <?= $order['email'] ?></span> <br>
                                                     <span>Ряд: <?= $order['row'] ?></span> <br>
                                                     <span>Место: <?= $order['place'] ?></span> <br>
-                                                    <span class="date-movie">Дата показа: <?= date('d.m.Y', strtotime($order['date_movie'])) ?></span> <br>
-                                                    <span>Время показа: <?= date('H:i', strtotime($order['time_movie']))?></span> <br>
+                                                    <span class="date-movie">Дата показа: <?= date('d.m.Y', strtotime($order['date_movie'])) ?></span>
+                                                    <br>
+                                                    <span>Время показа: <?= date('H:i', strtotime($order['time_movie'])) ?></span>
+                                                    <br>
                                                     <span>Фильм: <?= $order['movie_title'] ?></span> <br>
                                                     <img class="fix-image"
                                                          src="../../resource/qrcodes/bilet_<?= $order['qr'] ?>.png"
@@ -463,7 +524,9 @@ class Panel
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" data-order="<?= $order['id'] ?>"
-                                                            class="btn btn-danger delete-order">Удалить заказ</button>                                                    <button type="button" class="btn btn-secondary"
+                                                            class="btn btn-danger delete-order">Удалить заказ
+                                                    </button>
+                                                    <button type="button" class="btn btn-secondary"
                                                             data-dismiss="modal">Закрыть
                                                     </button>
 
@@ -600,7 +663,7 @@ class Panel
                     echo '<p>Количество проданных билетов за сегодня: ' . $ticketCount . '</p>';
                     echo '<a href="' . $filePath . '">Скачать отчет в формате Excel</a>';
                     echo '</div>';
-                  ?>
+                    ?>
                 </div>
 
 

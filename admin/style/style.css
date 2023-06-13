@@ -242,3 +242,24 @@ body{
     background-color: #007bff;
     color: #fff;
 }
+.seans-films{
+    width: 80%;
+    margin-top: 50px;
+    height: 100%;
+}
+#seans-table>tbody>tr{
+    font-size: 18px;
+}
+.filters-seans{
+    width: 50%;
+    position: relative;
+    height: 59px;
+    bottom: 13px;
+    /* margin-bottom: -29px; */
+}
+.header-seans{
+    width: 80%;
+    height: 47px;
+    display: flex;
+    justify-content: space-between;
+}
