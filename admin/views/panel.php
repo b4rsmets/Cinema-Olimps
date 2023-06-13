@@ -6,6 +6,8 @@ require_once 'admin/vendor/autoload.php';
 require_once 'admin/template/jsconnect.php';
 
 use Medoo\Medoo;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Panel
 {
@@ -37,7 +39,10 @@ class Panel
     public function viewAdm()
     {
         require_once 'admin/template/header.php';
-        $users = $this->database->select('users', ['id', 'login', 'role']);
+
+        // Формируем условие фильтрации по дате, если она была выбрана
+        $dateCondition = isset($_POST['report-date']) ? ['seans.date_movie' => $_POST['report-date']] : [];
+
         $orders = $this->database->select('orders', [
             '[>]users' => ['id_user' => 'id'],
             '[>]seans' => ['id_seans' => 'id'],
@@ -47,25 +52,28 @@ class Panel
             'orders.id',
             'orders.ticket_number',
             'orders.qr',
+            'orders.id_seans',
             'seats.row',
             'seats.place',
             'users.full_name(full_name)',
             'users.phone(phone)',
             'users.email(email)',
             'seans.hall_id(hall_id)',
+            'seans.price',
+            'seans.id',
             'seans.date_movie(date_movie)',
             'seans.time_movie(time_movie)',
             'movies.movie_title(movie_title)',
             'movies.movie_image(movie_image)'
-        ]);
+        ], $dateCondition);
 
-// Создаем временный массив для хранения значений date_movie
+        // Создаем временный массив для хранения значений date_movie
         $tempDates = [];
         foreach ($orders as $order) {
             $tempDates[] = $order['seans']['date_movie'];
         }
 
-// Сортируем массивы результатов и временный массив по убыванию date_movie
+        // Сортируем массивы результатов и временный массив по убыванию date_movie
         array_multisort($tempDates, SORT_DESC, $orders);
 
 
@@ -88,8 +96,8 @@ class Panel
         $sessions = array_filter($sessions, function ($session) use ($today) {
             return $session['date_movie'] >= $today;
         });
-
         ?>
+
         <div id="wrapper">
 
 
@@ -419,7 +427,6 @@ class Panel
                         var selectedMovie = movieSelect.value;
                         var selectedDate = dateSelect.value !== '' ? formatDateJs(dateSelect.value) : '';
 
-                     
 
                         var rows = seansTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
                         for (var i = 0; i < rows.length; i++) {
@@ -431,11 +438,9 @@ class Panel
                             var seansDateJs = formatDateJs(formatDatePhp(seansDatePhp)); // Используем formatDatePhp для преобразования даты в PHP формат, а затем преобразуем его в JS формат
 
 
-
                             var showRow =
                                 (selectedMovie === '' || movieTitle === selectedMovie) &&
                                 (selectedDate === '' || seansDatePhp.includes(selectedDate) || seansDateJs.includes(selectedDate)); // Изменяем условие сравнения дат, чтобы учитывать частичное совпадение
-
 
 
                             rows[i].style.display = showRow ? '' : 'none';
@@ -491,7 +496,6 @@ class Panel
                     </div>
                 </div>
                 <!-- Сеансы -->
-
 
 
                 <!--Новости-->
@@ -676,40 +680,94 @@ class Panel
                         </script>
                     </div>
                 </div>
-                <div id="report" class="panel" style="display:none;">
+                <div id="report" class="panel">
                     <h2>Отчет</h2>
-                    <?
-                    $spreadsheet = new Spreadsheet();
-                    $sheet = $spreadsheet->getActiveSheet();
+                    <form method="post" action="">
+                        <label for="report-date">Выберите дату:</label>
+                        <input type="date" id="report-date" name="report-date">
+                        <button type="submit">Создать отчет</button>
+                    </form>
+                    <script>
+                        function generateReport() {
+                            var selectedDate = document.getElementById('report-date').value;
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', 'generate_report.php', true);
+                            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    // Обработка ответа сервера, например, отображение ссылки для скачивания отчета
+                                    var response = xhr.responseText;
+                                    document.getElementById('report-link').innerHTML = response;
+                                }
+                            };
+                            xhr.send('report-date=' + selectedDate);
+                        }
+                    </script>
+                    <?php
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['report-date'])) {
+                        $selectedDate = $_POST['report-date'];
+                        $formattedDate = date('d.m.y', strtotime($selectedDate));
 
-                    // Установка заголовков столбцов
-                    $sheet->setCellValue('A1', 'Дата');
-                    $sheet->setCellValue('B1', 'Количество проданных билетов');
+                        $filteredOrders = array_filter($orders, function ($order) use ($selectedDate) {
+                            return $order['seans']['date_movie'] === $selectedDate;
+                        });
 
-                    // Запрос для получения количества проданных билетов за сегодня
-                    $ticketCount = $this->database->count('orders', [
-                        'DATE(created_at)' => $currentDate
-                    ]);
+                        $spreadsheet = new Spreadsheet();
 
-                    // Запись данных в ячейки
-                    $sheet->setCellValue('A2', $currentDate);
-                    $sheet->setCellValue('B2', $ticketCount);
+                        // Создание рабочего листа
+                        $sheet = $spreadsheet->getActiveSheet();
 
-                    // Создание объекта Writer и сохранение файла
-                    $writer = new Xlsx($spreadsheet);
-                    $filePath = '/path/to/save/report.xlsx'; // Укажите путь, по которому будет сохранен отчет
-                    $writer->save($filePath);
+                        // Запись заголовков столбцов
+                        $sheet->setCellValue('A1', 'ID')
+                            ->setCellValue('B1', 'Номер билета')
+                            ->setCellValue('C1', 'QR')
+                            ->setCellValue('D1', 'Ряд')
+                            ->setCellValue('E1', 'Место')
+                            ->setCellValue('F1', 'Имя')
+                            ->setCellValue('G1', 'Номер телефона')
+                            ->setCellValue('H1', 'Email')
+                            ->setCellValue('I1', 'Номер зала')
+                            ->setCellValue('J1', 'Дата сеанса')
+                            ->setCellValue('K1', 'Время сеанса')
+                            ->setCellValue('L1', 'Название фильма');
 
-                    // Вывод ссылки на скачивание файла отчета
-                    echo '<div id="report" class="panel">';
-                    echo '<h2>Отчет</h2>';
-                    echo '<p>Количество проданных билетов за сегодня: ' . $ticketCount . '</p>';
-                    echo '<a href="' . $filePath . '">Скачать отчет в формате Excel</a>';
-                    echo '</div>';
+                        $row = 2;
+                        foreach ($filteredOrders as $order) {
+                            $sheet->setCellValue('A' . $row, $order['id']);
+                            $sheet->setCellValue('B' . $row, $order['ticket_number']);
+                            $sheet->setCellValue('C' . $row, $order['qr']);
+                            $sheet->setCellValue('D' . $row, $order['row']);
+                            $sheet->setCellValue('E' . $row, $order['place']);
+                            $sheet->setCellValue('F' . $row, $order['full_name']);
+                            $sheet->setCellValue('G' . $row, $order['phone']);
+                            $sheet->setCellValue('H' . $row, $order['email']);
+                            $sheet->setCellValue('I' . $row, $order['hall_id']);
+                            $sheet->setCellValue('J' . $row, $order['date_movie']);
+                            $sheet->setCellValue('K' . $row, $order['time_movie']);
+                            $sheet->setCellValue('L' . $row, $order['movie_title']);
+                            $sheet->setCellValue('M' . $row, $order['movie_image']);
+
+                            $row++;
+                        }
+
+
+                        // Запись данных о суммарной сумме в последнюю строку
+                        $lastRow = $row;
+                        $sheet->setCellValue('N' . $lastRow, 'Суммарная сумма');
+                        $sheet->setCellValue('O' . $lastRow, '=SUM(O2:O' . ($lastRow - 1) . ')');
+
+                        // Сохранение отчета в формате Excel
+                        $filename = $formattedDate . '_' . $_SESSION['auth']['login'] . '.xlsx';
+                        $writer = new Xlsx($spreadsheet);
+                        $writer->save($filename);
+
+                        echo '<a href="' . $filename . '" download>Скачать отчет</a>';
+                    }
                     ?>
                 </div>
             </div>
         </div>
+
         <?php
     }
 
