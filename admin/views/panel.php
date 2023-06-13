@@ -329,7 +329,7 @@ class Panel
                     <?php } ?>
                 </div>
 
-                <!--Сеансы-->
+                <!-- Сеансы -->
                 <div id="seans" class="panel" style="display:none;">
                     <h2>Сеансы</h2>
                     <div class="header-seans">
@@ -344,6 +344,8 @@ class Panel
                                     <option value="<?php echo $filmchoose['movie_title']; ?>"><?php echo $filmchoose['movie_title']; ?></option>
                                 <?php } ?>
                             </select>
+                            <label for="date-select">Выберите дату:</label>
+                            <input type="date" id="date-select" class="form-control">
                         </div>
                     </div>
                     <div class="seans-films">
@@ -360,7 +362,8 @@ class Panel
                             </thead>
                             <tbody>
                             <?php foreach ($sessions as $item) {
-                                $seansId = $item['id'] ?>
+                                $seansId = $item['id'];
+                                ?>
                                 <tr>
                                     <td><?php echo $item['movie_title']; ?></td>
                                     <td><?php echo date('d.m.y', strtotime($item['date_movie'])); ?></td>
@@ -372,7 +375,6 @@ class Panel
                                                 class="btn btn-success">Редактировать
                                         </button>
                                     </td>
-
                                     <td>
                                         <button type="button" id="delete-seans" data-seansId="<?= $item['id']; ?>"
                                                 class="btn btn-danger">Удалить
@@ -380,50 +382,8 @@ class Panel
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="editSeansModal" tabindex="-1" role="dialog"
-                                     aria-labelledby="editMovieModalLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editMovieModalLabel">Редактировать
-                                                    сеанс</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form enctype="multipart/form-data" method="post">
-                                                    <div class="form-group">
-                                                        <label for="date_movie">Выберите дату:</label>
-                                                        <input type="date" class="form-control" name="date_movie"
-                                                               id="date_movie">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="time_movie">Выберите время:</label>
-                                                        <input type="time" class="form-control" id="time_movie"
-                                                               name="time_movie">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="price">Цена:</label>
-                                                        <input type="number" class="form-control" id="price"
-                                                               name="price">
-                                                    </div>
-                                                    <input type="hidden" id="movie_id" name="movieId"
-                                                           value="<?php echo $seansId; ?>">
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                    Закрыть
-                                                </button>
-                                                <button type="button" id="save_changes-seans"
-                                                        data-seansid="<?= $seansId ?>" class="btn btn-primary">
-                                                    Сохранить изменения
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                     aria-labelledby="editMovieModalLabel" aria-hidden="true">
+                                    <!-- Код модального окна редактирования сеанса -->
                                 </div>
                             <?php } ?>
                             </tbody>
@@ -432,36 +392,65 @@ class Panel
                 </div>
 
                 <script>
-                    // Получаем ссылки на элементы DOM
                     var movieSelect = document.getElementById('movie-select');
+                    var dateSelect = document.getElementById('date-select');
                     var seansTable = document.getElementById('seans-table');
 
-                    // Слушаем событие изменения значения в select
-                    movieSelect.addEventListener('change', filterByMovie);
+                    movieSelect.addEventListener('change', filterByMovieAndDate);
+                    dateSelect.addEventListener('change', filterByMovieAndDate);
 
-                    // Функция фильтрации по выбранному фильму
-                    function filterByMovie() {
+                    function formatDatePhp(date) {
+                        var parts = date.split('.');
+                        var day = parts[0];
+                        var month = parts[1];
+                        var year = parts[2];
+                        return year + '-' + month + '-' + day;
+                    }
+
+                    function formatDateJs(date) {
+                        var parts = date.split('-');
+                        var year = parts[0].slice(2); // Извлекаем последние две цифры года
+                        var month = parts[1];
+                        var day = parts[2];
+                        return day + '.' + month + '.' + year;
+                    }
+
+                    function filterByMovieAndDate() {
                         var selectedMovie = movieSelect.value;
+                        var selectedDate = dateSelect.value !== '' ? formatDateJs(dateSelect.value) : '';
 
-                        // Получаем все строки таблицы, кроме заголовка
-                        var rows = seansTable.getElementsByTagName('tr');
-                        for (var i = 1; i < rows.length; i++) {
-                            var movieCell = rows[i].getElementsByTagName('td')[0];
+                     
+
+                        var rows = seansTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                        for (var i = 0; i < rows.length; i++) {
+                            var movieCell = rows[i].cells[0];
+                            var dateCell = rows[i].cells[1];
+
                             var movieTitle = movieCell.textContent || movieCell.innerText;
+                            var seansDatePhp = dateCell.textContent || dateCell.innerText;
+                            var seansDateJs = formatDateJs(formatDatePhp(seansDatePhp)); // Используем formatDatePhp для преобразования даты в PHP формат, а затем преобразуем его в JS формат
 
-                            // Проверяем, соответствует ли фильм выбранному значению
-                            if (selectedMovie === '' || movieTitle === selectedMovie) {
-                                rows[i].style.display = ''; // Отображаем строку
-                            } else {
-                                rows[i].style.display = 'none'; // Скрываем строку
-                            }
+
+
+                            var showRow =
+                                (selectedMovie === '' || movieTitle === selectedMovie) &&
+                                (selectedDate === '' || seansDatePhp.includes(selectedDate) || seansDateJs.includes(selectedDate)); // Изменяем условие сравнения дат, чтобы учитывать частичное совпадение
+
+
+
+                            rows[i].style.display = showRow ? '' : 'none';
                         }
                     }
+
+                    filterByMovieAndDate();
+
+
                 </script>
 
+                <!-- Остальной код и модальное окно добавления сеанса -->
 
-                <div class="modal fade" id="seansAdd" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="seansAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -479,7 +468,6 @@ class Panel
                                                 <option value="<?php echo $filmselect['id']; ?>"><?php echo $filmselect['movie_title']; ?></option>
                                             <?php } ?>
                                         </select>
-
                                     </div>
                                     <div class="form-group">
                                         <label for="timeInput">Выберите время:</label>
@@ -496,16 +484,14 @@ class Panel
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть
-                                </button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                                 <button type="submit" class="btn btn-primary" id="addSeansButton">Добавить</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Сеансы -->
 
-
-                <!--Сеансы-->
 
 
                 <!--Новости-->

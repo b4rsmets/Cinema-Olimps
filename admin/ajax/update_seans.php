@@ -19,7 +19,7 @@ $jsonData = file_get_contents('php://input');
 // Преобразуем JSON в массив
 $seans = json_decode($jsonData, true);
 
-$seansId = $seans['seansId'];
+$seansId = $_SESSION['seansId'];
 $seansData = $database->get('seans', '*', ['id' => $seansId]);
 
 $updateData = [];

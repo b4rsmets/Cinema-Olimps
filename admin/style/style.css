@@ -260,6 +260,7 @@ body{
 .header-seans{
     width: 80%;
     height: 47px;
+    margin-bottom: 111px;
     display: flex;
     justify-content: space-between;
 }
