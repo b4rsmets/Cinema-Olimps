@@ -454,3 +454,53 @@ $(document).on('click', '#save_changes-seans', function () {
         }
     });
 });
+// Ожидаем загрузки DOM-дерева
+function downloadReport() {
+    $.ajax({
+        type: 'POST',
+        url: '/admin/ajax/ajaxReport.php',
+        dataType: 'json',
+        success: function(response) {
+            console.log(response); // Отладочный вывод
+
+            if (response.filePath) {
+                // Создаем ссылку на скачивание файла
+                var downloadLink = document.createElement('a');
+                downloadLink.href = response.filePath;
+                downloadLink.download = 'report.xlsx';
+                downloadLink.style.display = 'none';
+
+                // Добавляем ссылку на страницу
+                document.body.appendChild(downloadLink);
+
+                // Симулируем клик по ссылке для скачивания файла
+                downloadLink.click();
+
+                // Удаляем ссылку
+                document.body.removeChild(downloadLink);
+            } else {
+                alert('Ошибка при генерации отчета.');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            var errorMessage = 'Отчет был сохранен ';
+
+            $('#error-message')
+                .removeClass()
+                .addClass('alert alert-success')
+                .text(errorMessage)
+                .show();
+
+            setTimeout(function () {
+                $('#error-message').hide();
+            }, 5000);
+        }
+    });
+}
+
+$(document).ready(function() {
+    $('#report-form').submit(function(e) {
+        e.preventDefault();
+        downloadReport();
+    });
+});

@@ -442,58 +442,9 @@ class Panel
                     </div>
                 </div>
 
-                <script>
-                    var movieSelect = document.getElementById('movie-select');
-                    var dateSelect = document.getElementById('date-select');
-                    var seansTable = document.getElementById('seans-table');
-
-                    movieSelect.addEventListener('change', filterByMovieAndDate);
-                    dateSelect.addEventListener('change', filterByMovieAndDate);
-
-                    function formatDatePhp(date) {
-                        var parts = date.split('.');
-                        var day = parts[0];
-                        var month = parts[1];
-                        var year = parts[2];
-                        return year + '-' + month + '-' + day;
-                    }
-
-                    function formatDateJs(date) {
-                        var parts = date.split('-');
-                        var year = parts[0].slice(2); // Извлекаем последние две цифры года
-                        var month = parts[1];
-                        var day = parts[2];
-                        return day + '.' + month + '.' + year;
-                    }
-
-                    function filterByMovieAndDate() {
-                        var selectedMovie = movieSelect.value;
-                        var selectedDate = dateSelect.value !== '' ? formatDateJs(dateSelect.value) : '';
-
-
-                        var rows = seansTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-                        for (var i = 0; i < rows.length; i++) {
-                            var movieCell = rows[i].cells[0];
-                            var dateCell = rows[i].cells[1];
-
-                            var movieTitle = movieCell.textContent || movieCell.innerText;
-                            var seansDatePhp = dateCell.textContent || dateCell.innerText;
-                            var seansDateJs = formatDateJs(formatDatePhp(seansDatePhp)); // Используем formatDatePhp для преобразования даты в PHP формат, а затем преобразуем его в JS формат
-
-
-                            var showRow =
-                                (selectedMovie === '' || movieTitle === selectedMovie) &&
-                                (selectedDate === '' || seansDatePhp.includes(selectedDate) || seansDateJs.includes(selectedDate)); // Изменяем условие сравнения дат, чтобы учитывать частичное совпадение
-
-
-                            rows[i].style.display = showRow ? '' : 'none';
-                        }
-                    }
-
-                    filterByMovieAndDate();
-
-
-                </script>
+                <!--Скрипт на фильтр сеансов-->
+                <script src="admin/js/filterSeans.js"></script>
+                <!--Скрипт на фильтр сеансов-->
 
                 <!-- Остальной код и модальное окно добавления сеанса -->
 
@@ -629,184 +580,26 @@ class Panel
                             <?
                         }
                         ?>
+
+                        <!--Скрипт на фильтр заказов-->
+                        <script src="admin/js/filterOrders.js"></script>
+                        <!--Скрипт на фильтр заказов-->
+
                         <div id="pagination" class="pagination"></div>
-                        <script>
-                            var itemsPerPage = 4;
-                            document.getElementById("filter-btn").addEventListener("click", function () {
-                                var selectedDateStr = document.getElementById("selected-date").value;
-                                var selectedDateParts = selectedDateStr.split("-");
-                                var selectedDate = selectedDateParts[2] + "." + selectedDateParts[1] + "." + selectedDateParts[0];
 
-                                var orders = document.getElementsByClassName("card-order-admin");
-
-                                // Скрываем все элементы
-                                for (var i = 0; i < orders.length; i++) {
-                                    orders[i].style.display = "none";
-                                }
-
-                                // Фильтруем и отображаем только соответствующие заказы
-                                var filteredOrders = [];
-                                for (var i = 0; i < orders.length; i++) {
-                                    var order = orders[i];
-                                    var orderDateStr = order.getElementsByClassName("date-movie")[0].textContent;
-
-                                    if (orderDateStr.includes(selectedDate)) {
-                                        filteredOrders.push(order);
-                                    }
-                                }
-
-                                // Показываем только первые три элемента
-                                for (var i = 0; i < filteredOrders.length; i++) {
-                                    if (i < itemsPerPage) {
-                                        filteredOrders[i].style.display = "flex";
-                                    }
-                                }
-
-                                // Показываем контейнер с заказами после фильтрации
-                                var containerOrders = document.querySelector(".container-orders-admin");
-                                containerOrders.style.display = "block";
-
-                                // При каждом фильтре обновляем пагинацию
-                                updatePagination(filteredOrders);
-                            });
-
-                            // Функция для обновления пагинации
-                            function updatePagination(filteredOrders) {
-                                var numPages = Math.ceil(filteredOrders.length / itemsPerPage);
-
-                                // Очищаем пагинацию
-                                var paginationContainer = document.getElementById("pagination");
-                                paginationContainer.innerHTML = "";
-
-                                // Создаем ссылки для пагинации
-                                for (var i = 1; i <= numPages; i++) {
-                                    var link = document.createElement("a");
-                                    link.href = "#";
-                                    link.textContent = i;
-
-                                    // Добавляем класс "active" к текущей странице
-                                    if (i === 1) {
-                                        link.classList.add("active");
-                                    }
-
-                                    // Обработчик события при клике на ссылку пагинации
-                                    link.addEventListener("click", function (event) {
-                                        event.preventDefault();
-
-                                        // Удаляем класс "active" у всех ссылок
-                                        var paginationLinks = paginationContainer.getElementsByTagName("a");
-                                        for (var j = 0; j < paginationLinks.length; j++) {
-                                            paginationLinks[j].classList.remove("active");
-                                        }
-
-                                        // Показываем только элементы текущей страницы
-                                        var pageNumber = parseInt(this.textContent);
-                                        var startIndex = (pageNumber - 1) * itemsPerPage;
-                                        var endIndex = startIndex + itemsPerPage;
-
-                                        for (var k = 0; k < filteredOrders.length; k++) {
-                                            if (k >= startIndex && k < endIndex) {
-                                                filteredOrders[k].style.display = "flex";
-                                            } else {
-                                                filteredOrders[k].style.display = "none";
-                                            }
-                                        }
-
-                                        // Добавляем класс "active" к текущей ссылке
-                                        this.classList.add("active");
-                                    });
-
-                                    paginationContainer.appendChild(link);
-                                }
-                            }
-
-                        </script>
                     </div>
                 </div>
                 <div id="report" style="display: none" class="panel">
                     <h2>Отчет</h2>
-                    <form method="post" action="">
-                        <label for="report-date">Выберите дату:</label>
-                        <input type="date" id="report-date" name="report-date">
-                        <button type="submit">Создать отчет</button>
-                    </form>
-                    <script>
-                        function generateReport() {
-                            var selectedDate = document.getElementById('report-date').value;
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('POST', 'generate_report.php', true);
-                            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                            xhr.onreadystatechange = function() {
-                                if (xhr.readyState === 4 && xhr.status === 200) {
-                                    // Обработка ответа сервера, например, отображение ссылки для скачивания отчета
-                                    var response = xhr.responseText;
-                                    document.getElementById('report-link').innerHTML = response;
-                                }
-                            };
-                            xhr.send('report-date=' + selectedDate);
-                        }
-                    </script>
-                    <?php
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['report-date'])) {
-                        $selectedDate = $_POST['report-date'];
-                        $formattedDate = date('d.m.y', strtotime($selectedDate));
-
-                        $filteredOrders = array_filter($orders, function ($order) use ($selectedDate) {
-                            return $order['seans']['date_movie'] === $selectedDate;
-                        });
-
-                        $spreadsheet = new Spreadsheet();
-
-                        // Создание рабочего листа
-                        $sheet = $spreadsheet->getActiveSheet();
-
-                        // Запись заголовков столбцов
-                        $sheet->setCellValue('A1', 'ID')
-                            ->setCellValue('B1', 'Номер билета')
-                            ->setCellValue('C1', 'QR')
-                            ->setCellValue('D1', 'Ряд')
-                            ->setCellValue('E1', 'Место')
-                            ->setCellValue('F1', 'Имя')
-                            ->setCellValue('G1', 'Номер телефона')
-                            ->setCellValue('H1', 'Email')
-                            ->setCellValue('I1', 'Номер зала')
-                            ->setCellValue('J1', 'Дата сеанса')
-                            ->setCellValue('K1', 'Время сеанса')
-                            ->setCellValue('L1', 'Название фильма');
-
-                        $row = 2;
-                        foreach ($filteredOrders as $order) {
-                            $sheet->setCellValue('A' . $row, $order['id']);
-                            $sheet->setCellValue('B' . $row, $order['ticket_number']);
-                            $sheet->setCellValue('C' . $row, $order['qr']);
-                            $sheet->setCellValue('D' . $row, $order['row']);
-                            $sheet->setCellValue('E' . $row, $order['place']);
-                            $sheet->setCellValue('F' . $row, $order['full_name']);
-                            $sheet->setCellValue('G' . $row, $order['phone']);
-                            $sheet->setCellValue('H' . $row, $order['email']);
-                            $sheet->setCellValue('I' . $row, $order['hall_id']);
-                            $sheet->setCellValue('J' . $row, $order['date_movie']);
-                            $sheet->setCellValue('K' . $row, $order['time_movie']);
-                            $sheet->setCellValue('L' . $row, $order['movie_title']);
-                            $sheet->setCellValue('M' . $row, $order['movie_image']);
-
-                            $row++;
-                        }
-
-
-                        // Запись данных о суммарной сумме в последнюю строку
-                        $lastRow = $row;
-                        $sheet->setCellValue('N' . $lastRow, 'Суммарная сумма');
-                        $sheet->setCellValue('O' . $lastRow, '=SUM(O2:O' . ($lastRow - 1) . ')');
-
-                        // Сохранение отчета в формате Excel
-                        $filename = $formattedDate . '_' . $_SESSION['auth']['login'] . '.xlsx';
-                        $writer = new Xlsx($spreadsheet);
-                        $writer->save($filename);
-
-                        echo '<a href="' . $filename . '" download>Скачать отчет</a>';
-                    }
+                    <?
+                    $now = date('Y-m-d');
                     ?>
+                    <form id="report-form" method="post" action="ajaxReport.php">
+                        <input type="hidden" name="report-date" value="<?=$now?>">
+                        <button class="btn btn-info" type="submit">Скачать отчет за сегодня</button>
+                    </form>
+
+                    <div id="report-content"></div>
                 </div>
             </div>
         </div>
