@@ -52,7 +52,7 @@ class index
         $hasFilms = false; // Переменная для отслеживания наличия фильмов
 
         ?>
-        <div class="container-catalog">
+        <div id="catalog" class="container-catalog">
             <?php
             if (is_array($films)) {
                 foreach ($films as $film) {
@@ -67,7 +67,7 @@ class index
                         if (
                             $seans['movie_id'] == $id_film &&
                             $seans['date_movie'] == $selectedDate &&
-                            strtotime($seans['time_movie']) >= $now
+                            strtotime($seans['date_movie'] . ' ' . $seans['time_movie']) > $now
                         ) {
                             $hasSeans = true;
                             $hasFilms = true; // Устанавливаем флаг, что есть фильмы
@@ -142,7 +142,7 @@ class index
                     if (
                         $one_seans['movie_id'] == $id_film &&
                         $one_seans['date_movie'] == $selectedDate &&
-                        strtotime($one_seans['time_movie']) >= $now
+                        strtotime($one_seans['date_movie'] . ' ' . $one_seans['time_movie']) > $now
                     ) {
                         $emply = false;
                         echo "<a href='/booking?id=" . $one_seans['movie_id'] . "&seans=" . $one_seans['id'] . "'><div class='block-time'>";
@@ -181,7 +181,7 @@ class index
     function viewNews($news)
     {
         ?>
-        <div class="news-container">
+        <div id="news" class="news-container">
             <h1>Новости</h1>
             <?php
             if (is_array($news)) {

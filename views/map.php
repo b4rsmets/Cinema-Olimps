@@ -1,4 +1,4 @@
-<div class="map">
+<div id="map" class="map">
     <h1>Где мы находимся</h1>
     <div style="position:relative;left: 174px;top: 195px;/* margin: auto; */overflow:hidden;"><a href="https://yandex.ru/maps/org/dom_kultury/69291313555/?utm_medium=mapframe&amp;utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Дом культуры</a><a href="https://yandex.ru/maps/11235/altai-krai/category/house_of_culture/184105876/?utm_medium=mapframe&amp;utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:14px;">Дом культуры в Алтайском крае</a><iframe src="https://yandex.ru/map-widget/v1/?ll=85.075635%2C52.304516&amp;mode=poi&amp;poi%5Bpoint%5D=85.074811%2C52.304147&amp;poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D69291313555&amp;z=17.4" width="1000px" height="600px" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
 </div>

@@ -41,8 +41,8 @@ class Panel
         require_once 'admin/template/header.php';
 
         // Формируем условие фильтрации по дате, если она была выбрана
-        $dateCondition = isset($_POST['report-date']) ? ['seans.date_movie' => $_POST['report-date']] : [];
         $users = $this->database->select('users', ['id', 'login', 'role']);
+        $settings = $this->database->select('settings', '*');
         $orders = $this->database->select('orders', [
             '[>]users' => ['id_user' => 'id'],
             '[>]seans' => ['id_seans' => 'id'],
@@ -65,7 +65,7 @@ class Panel
             'seans.time_movie(time_movie)',
             'movies.movie_title(movie_title)',
             'movies.movie_image(movie_image)'
-        ], $dateCondition);
+        ]);
 
         // Создаем временный массив для хранения значений date_movie
         $tempDates = [];
@@ -122,7 +122,7 @@ class Panel
                     </div>
                     <div class="img-side"><img src="../admin/source/img/news.png" alt="">
                         <li>
-                            <button class="sidebar-button" data-panel-id="news">Новости</button>
+                            <button class="sidebar-button" data-panel-id="news">Настройки сайта</button>
                         </li>
 
                     </div>
@@ -492,16 +492,160 @@ class Panel
                 <!-- Сеансы -->
 
 
-                <!--Новости-->
+                <!--Настройки сайта-->
 
                 <div id="news" class="panel" style="display:none;">
-                    <h2>Новости</h2>
-                    <?php foreach ($news as $new) { ?>
-                        <div><?php print_r($new); ?></div>
-                    <?php } ?>
-                </div>
-                <!--Новости-->
+                    <h2>Настройка сайта</h2>
+                    <div class="news-container">
+                        <h3>Новости</h3>
+                        <button data-toggle="modal" data-target="#addNews" style="margin-bottom: 20px"
+                                type="button" class="btn btn-success">Добавить
+                            новость
+                        </button>
+                        <div class="modal fade" id="addNews" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Добавление новости</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" id="addMovieForm">
+                                            <div class="form-group">
+                                                <label for="news_image">Изображение</label>
+                                                <input type="file" class="form-control-file" name="NewsImage"
+                                                       id="news_image">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="news_title">Заголовок новости</label>
+                                                <input type="text" class="form-control" id="news_title"
+                                                       name="news_title">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="news_description">Описание новости</label>
+                                                <input type="text" class="form-control" id="news_description"
+                                                       name="news_description">
+                                            </div>
 
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            Закрыть
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" id="addSeansButton">Добавить
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-deck">
+                            <?php foreach ($news
+
+                                           as $new) { ?>
+
+                                <div class="card">
+
+                                    <img class="card-img-top"
+                                         src="../../resource/uploads/news/<?= $new['news_image'] ?>"
+                                         alt="Card image cap">
+                                    <div class="card-body">
+
+                                        <h5 class="card-title"><?= $new['news_title'] ?></h5>
+                                        <p class="card-text"><?= $new['news_description'] ?></p>
+                                        <p class="card-text"><small class="text-muted"><?= $new['news_date'] ?></small>
+                                        </p>
+
+                                    </div>
+                                    <div class="btn-containers-news">
+                                        <button type="button" class="btn btn-danger">Удалить</button>
+                                        <button type="button" class="btn btn-success">Редактировать</button>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <div class="slider-container">
+                            <h3>Слайдер</h3>
+                            <button data-toggle="modal" data-target="#addSlider" style="margin-bottom: 20px"
+                                    type="button" class="btn btn-success">Добавить
+                                картинку
+                            </button>
+                            <div class="modal fade" id="addSlider" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Добавление слайдера</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" id="addMovieForm">
+                                                <div class="form-group">
+                                                    <label for="slider_image">Изображение</label>
+                                                    <input type="file" class="form-control-file" name="SliderImage"
+                                                           id="slider_image">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="title_movie_slider">Заголовок</label>
+                                                    <input type="text" class="form-control" id="title_movie_slider"
+                                                           name="title_movie_slider">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Закрыть
+                                            </button>
+                                            <button type="submit" class="btn btn-primary" id="addSeansButton">Добавить
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Название картинки</th>
+                                    <th scope="col">Заголовок</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($settings
+
+                                as $setting) { ?>
+                                <tr>
+
+                                    <th scope="row"><?= $setting['id'] ?></th>
+                                    <td><?= $setting['slider_image'] ?></td>
+                                    <td><?= $setting['title_movie_slider'] ?></td>
+                                    <td>
+                                        <button type="button" id="delete-slider" data-seansId="<?= $setting['id']; ?>"
+                                                class="btn btn-danger">Удалить
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <?php } ?>
+                            </table>
+
+                            <div></div>
+
+                        </div>
+                    </div>
+                    <!--Настройки сайта-->
+                </div>
 
                 <!--Заказы-->
 
@@ -515,7 +659,9 @@ class Panel
 
                     <div class="container-orders-admin" style="display:none;">
                         <?
-                        foreach ($orders as $order) {
+                        foreach ($orders
+
+                                 as $order) {
                             ?>
                             <div class="card-order-admin" style="display:none;">
                                 <div class="small-info">
@@ -595,12 +741,13 @@ class Panel
                     $now = date('Y-m-d');
                     ?>
                     <form id="report-form" method="post" action="ajaxReport.php">
-                        <input type="hidden" name="report-date" value="<?=$now?>">
+                        <input type="hidden" name="report-date" value="<?= $now ?>">
                         <button class="btn btn-info" type="submit">Скачать отчет за сегодня</button>
                     </form>
 
                     <div id="report-content"></div>
                 </div>
+
             </div>
         </div>
 

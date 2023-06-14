@@ -269,3 +269,22 @@ body{
     position: relative;
     bottom: 7px;
 }
+.card-img-top{
+    height: 286px;
+    width: 377px;
+}
+.card{
+
+    max-width: 380px !important;
+}
+.btn-containers-news{
+    width: 100%;
+    margin: auto;
+
+    display: flex;
+    /* margin-bottom: 7px; */
+    flex-direction: column;
+}
+.btn-containers-news>button {
+    border-radius: 0 !important;
+}

@@ -21,10 +21,10 @@
          </div>
          <div class="menu">
             <ul class="ulmenu">
-                <a href="#"><li>РАСПИСАНИЕ</li></a>
-                <a href="#"><li>СЕГОДНЯ В КИНО</li></a>
-                <a href="/soon"><li>СКОРО В КИНО</li></a>
-                <a href="#"><li>КОНТАКТЫ</li></a>
+                <a href="#catalog"><li>РАСПИСАНИЕ</li></a>
+                <a href="#map"><li>ГДЕ МЫ НАХОДИМСЯ</li></a>
+                <a href="#news"><li>НОВОСТИ</li></a>
+                <a href="#footer"><li>КОНТАКТЫ</li></a>
             </ul>
         </div>
     </div>
